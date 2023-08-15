@@ -26,7 +26,6 @@ public class MenuActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
