@@ -22,8 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoadingActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
-        <activity android:name=".MenuActivity" android:label="Menu Activity"></activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity android:name=".MenuActivity" android:label="Menu Activity"/>
+        <activity android:name=".JoinActivity"/>
+
 
     </application>
 
