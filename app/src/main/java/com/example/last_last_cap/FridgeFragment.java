@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class FridgeFragment extends Fragment {
 
-    private LinearLayout buttonContainer;
+    private TableLayout buttonContainer;
     private List<Button> buttons;
 
     @Nullable
@@ -43,6 +45,7 @@ public class FridgeFragment extends Fragment {
         return view;
     }
 
+    //showAddDialog에서 db에 입력한 재료를 저장해야 하는 코드 필요
     private void showAddDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add Button");
@@ -67,15 +70,30 @@ public class FridgeFragment extends Fragment {
         Button button = new Button(getActivity());
         button.setText(name);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+        TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT
         );
+        layoutParams.weight = 1; // Equally distribute buttons within TableRow
 
         button.setLayoutParams(layoutParams);
-        buttons.add(button);
 
-        buttonContainer.addView(button);
+        TableLayout buttonContainer = getView().findViewById(R.id.buttonContainer);
+        TableRow lastTableRow = null;
+
+        if (buttonContainer.getChildCount() > 0) {
+            lastTableRow = (TableRow) buttonContainer.getChildAt(buttonContainer.getChildCount() - 1);
+        }
+
+        if (lastTableRow == null || lastTableRow.getChildCount() >= 3) {
+            // Add a new TableRow for a new row
+            lastTableRow = new TableRow(getActivity());
+            buttonContainer.addView(lastTableRow);
+        }
+
+        lastTableRow.addView(button);
+
+        buttons.add(button);
     }
 
     private void showCalendarDialog() {
