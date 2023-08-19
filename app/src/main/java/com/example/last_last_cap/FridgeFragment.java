@@ -22,12 +22,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class FridgeFragment extends Fragment {
-
+    private AlertDialog currentDialog;
     private TableLayout buttonContainer;
     private List<Button> buttons;
 
@@ -53,6 +55,8 @@ public class FridgeFragment extends Fragment {
     }
 
     //showAddDialog에서 db에 입력한 재료를 저장해야 하는 코드 필요
+
+    //이제 필요없음
     private void showAddDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("add");
@@ -73,10 +77,12 @@ public class FridgeFragment extends Fragment {
         dialog.show();
     }
 
+
     private void showAddDialog2(){
+        if (currentDialog != null && currentDialog.isShowing()) {
+            currentDialog.dismiss();
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        //builder.setTitle("재료 추가하기");
-        //제목 추가하면 안이뻐서 주석처리 시켜놓음
         View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.ingredient_classification_dialog, null);
         builder.setView(dialogView);
 
@@ -96,7 +102,7 @@ public class FridgeFragment extends Fragment {
         Button etcButton = dialogView.findViewById(R.id.etc);
 
 
-
+        //각 버튼에 해당하는 카테고리 추가로 넘어감. 넘어갈때 카테고리 이름 가지고 넘어가도록 설정해두었음.
         graiButton.setOnClickListener(v -> showSelectToAddIngredientDialog("곡류"));
         vegButton.setOnClickListener(v -> showSelectToAddIngredientDialog("채소"));
         fruitButton.setOnClickListener(v ->showSelectToAddIngredientDialog("과일"));
@@ -113,24 +119,34 @@ public class FridgeFragment extends Fragment {
 
 
 
-
+        //기본적인 다이얼로그 보여주는 코드
         AlertDialog dialog = builder.create();
         dialog.show();
+
+        currentDialog = dialog;
     }
 
     //카테고리 선택 후 어떻게 재료를 추가할지 보여주는 다이얼로그의 textview 에 해당 카테고리영역을 출력해주는 함수
     private void showSelectToAddIngredientDialog(String categoryName) {
+
+        if (currentDialog != null && currentDialog.isShowing()) {
+            currentDialog.dismiss();
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.select_to_add_ingredient, null);
         builder.setView(dialogView);
-
+        
+        
+        //현재 추가하려는 재료의 카테고리가 어느 카테고리인지 출력. 앞선 showAddDialog2함수에서 가져온 카테고리 이름을 출력
         TextView categoryTextView = dialogView.findViewById(R.id.category_name);
         categoryTextView.setText(categoryName+" 카테고리");
-
+        
         Button input_textButton=dialogView.findViewById(R.id.input_text);
         Button using_cameraButton=dialogView.findViewById(R.id.using_camera);
         Button barcodeButton=dialogView.findViewById(R.id.barcode);
-
+        
+        
+        //사진 기능(추후 업데이트 예정)
         using_cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +154,7 @@ public class FridgeFragment extends Fragment {
             }
         });
 
+        //바코드 기능(추후 업데이트 예정)
         barcodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,13 +170,22 @@ public class FridgeFragment extends Fragment {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+        currentDialog = dialog;
+
     }
-    
+
+
+    //텍스트로 추가하는 경우에 대한 함수
     private void  showAddWithTextDialog(String categoryName){
+
+        if (currentDialog != null && currentDialog.isShowing()) {
+            currentDialog.dismiss();
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.add_with_text, null);
         builder.setView(dialogView);
-    
+
+
         TextView checkTextView = dialogView.findViewById(R.id.check);
         checkTextView.setText(categoryName+" 재료명");
 
@@ -175,8 +201,40 @@ public class FridgeFragment extends Fragment {
         ingredient_list.setAdapter(adapter);
 
 
+        //달력 다이얼로그 키는 버튼
+        Button set_expiration_date_button = dialogView.findViewById(R.id.set_expiration_date_button);
+        TextView view_expiration_date_textview = dialogView.findViewById(R.id.view_expiration_date_textview);
+        // 달력 다이얼로그 띄워서, 사용자가 선택한 날짜가 view_expiration_date_textview에 출력. selectedDate에 사용자가 선택한 날짜 넣음
+        set_expiration_date_button.setOnClickListener(v -> {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+                        String selectedDate = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        view_expiration_date_textview.setText(selectedDate);
+                    }, year, month, day);
+
+            datePickerDialog.show();
+        });
+
+        //재료 이름을 버튼 추가하는 기능
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            String name = ingredient_list.getText().toString();
+            addButtonWithName(name);
+            dialog.dismiss();
+        });
+
+        builder.setNegativeButton("Cancel", null);
+
+
+
         AlertDialog dialog = builder.create();
         dialog.show();
+        currentDialog = dialog;
+
     }
     private void addButtonWithName(String name) {
         Button button = new Button(getActivity());

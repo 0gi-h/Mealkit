@@ -43,12 +43,14 @@
 
             </TextView>
             <TextView
+                android:id="@+id/view_expiration_date_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18dp">
 
             </TextView>
             <Button
+                android:id="@+id/set_expiration_date_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="달력">
