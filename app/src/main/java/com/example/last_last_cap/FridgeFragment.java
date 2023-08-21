@@ -1,9 +1,17 @@
 package com.example.last_last_cap;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,10 +29,23 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -32,6 +54,10 @@ public class FridgeFragment extends Fragment {
     private AlertDialog currentDialog;
     private TableLayout buttonContainer;
     private List<Button> buttons;
+    Activity activity;
+    private List<String> list;
+
+    @Override public void onAttach(Context context) { super.onAttach(context); if (context instanceof Activity) activity = (Activity) context; }
 
     @Nullable
     @Override
@@ -128,7 +154,8 @@ public class FridgeFragment extends Fragment {
 
     //카테고리 선택 후 어떻게 재료를 추가할지 보여주는 다이얼로그의 textview 에 해당 카테고리영역을 출력해주는 함수
     private void showSelectToAddIngredientDialog(String categoryName) {
-
+        list = new ArrayList<String>();
+        settingList();
         if (currentDialog != null && currentDialog.isShowing()) {
             currentDialog.dismiss();
         }
@@ -165,7 +192,10 @@ public class FridgeFragment extends Fragment {
         input_textButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddWithTextDialog(categoryName);
+//                showAddWithTextDialog(categoryName);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("list", (Serializable) list);
+                startActivity(intent);
             }
         });
         AlertDialog dialog = builder.create();
@@ -191,8 +221,9 @@ public class FridgeFragment extends Fragment {
 
         // AutoCompleteTextView에 자동완성 되게 할 list를 추가해두었음. 앞으로 db에서 받아와서 list 생성하는 형태로 이루어져야함
         String[] autoCompleteOptions = new String[] {
-                "ab", "abc", "adfasdf","dag","hello","lsdifjsad","sedd" // 원하는 옵션들을 추가하세요
+                "ab", "abc", "adfasdf","dag","hello","lsdifjsad","sedd", "aa", "aaaa", "aaa", "aaaaa" // 원하는 옵션들을 추가하세요
         };
+
 
         //AutoCompleteTextView 와 자동완성시킬 list 엮는 코드
         AutoCompleteTextView ingredient_list = dialogView.findViewById(R.id.ingredient_list);
@@ -301,4 +332,31 @@ public class FridgeFragment extends Fragment {
         calendar.set(Calendar.DAY_OF_MONTH, picker.getDayOfMonth());
         return calendar.getTimeInMillis();
     }
+
+    private void settingList() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionRef = db.collection("food");
+        collectionRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        System.out.println("확인요망");
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            String ingredient = (String) document.get("INGREDIENT");
+                            if (ingredient != null) {
+                                list.add(ingredient);
+                                //System.out.println(list);
+                            }
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 오류 처리
+                    }
+                });
+    }
 }
+
