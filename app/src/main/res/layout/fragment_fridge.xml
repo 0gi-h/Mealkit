@@ -6,6 +6,18 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/addButton2"
+        android:layout_width="72dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="236dp"
+        android:layout_marginTop="512dp"
+        android:text="+"
+        android:textColor="#ffffff"
+        android:textSize="32sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/calendarButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,17 +39,17 @@
     </TableLayout>
 
 
-
     <Button
         android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Button"
-        android:layout_marginTop="500dp"
-        android:layout_marginStart="250dp"
+        android:layout_width="72dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="316dp"
+        android:layout_marginTop="512dp"
+        android:text="+"
+        android:textColor="#ffffff"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

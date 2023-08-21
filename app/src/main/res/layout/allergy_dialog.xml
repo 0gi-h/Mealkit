@@ -10,7 +10,7 @@
         android:id="@+id/checkbox_peanuts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="땅콩및 견과류" />
+        android:text="견과류" />
 
     <CheckBox
         android:id="@+id/checkbox_soy"
@@ -28,7 +28,7 @@
         android:id="@+id/checkbox_milk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="우유" />
+        android:text="유제품" />
 
     <CheckBox
         android:id="@+id/checkbox_eggs"
