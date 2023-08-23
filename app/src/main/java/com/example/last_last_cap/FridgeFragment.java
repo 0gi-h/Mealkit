@@ -155,7 +155,12 @@ public class FridgeFragment extends Fragment {
     //카테고리 선택 후 어떻게 재료를 추가할지 보여주는 다이얼로그의 textview 에 해당 카테고리영역을 출력해주는 함수
     private void showSelectToAddIngredientDialog(String categoryName) {
         list = new ArrayList<String>();
-        settingList();
+        settingList(categoryName);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         if (currentDialog != null && currentDialog.isShowing()) {
             currentDialog.dismiss();
         }
@@ -333,22 +338,23 @@ public class FridgeFragment extends Fragment {
         return calendar.getTimeInMillis();
     }
 
-    private void settingList() {
+    private void settingList(String categoryName) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionRef = db.collection("food");
+        System.out.println("시작");
         collectionRef.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        System.out.println("확인요망");
+
                         for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            String ingredient = (String) document.get("INGREDIENT");
-                            if (ingredient != null) {
-                                list.add(ingredient);
+//                            String ingredient = (String) document.get("INGREDIENT");
+                            if (document.get("CATEGORY").equals(categoryName)) {
+                                list.add((String) document.get("INGREDIENT"));
                                 //System.out.println(list);
                             }
                         }
-
+                        System.out.println("끝");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
