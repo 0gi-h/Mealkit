@@ -51,23 +51,15 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = getIntent();
         list = (ArrayList<String>) intent.getSerializableExtra("list");
 
-//        TextView textView7 = (TextView) findViewById(R.id.textView7);
-//        textView7.setText(category+" 검색하기");
-
         editSearch = (EditText) findViewById(R.id.editSearch);
         listView = (ListView) findViewById(R.id.listView);
 
         // 리스트를 생성한다.
-        //list = new ArrayList<String>();
         food = new ArrayList<String>();
 
         //ck= new int[27];
 
-        // 검색에 사용할 데이터을 미리 저장한다.
-//        settingList();
-
         System.out.println(list);
-        System.out.println("확인");
         // 리스트의 모든 데이터를 arraylist에 복사한다.// list 복사본을 만든다.
         arraylist = new ArrayList<String>();
         arraylist.addAll(list);
@@ -190,30 +182,4 @@ public class SearchActivity extends AppCompatActivity {
         // 리스트 데이터가 변경되었으므로 아답터를 갱신하여 검색된 데이터를 화면에 보여준다.
         adapter.notifyDataSetChanged();
     }
-
-//    private void settingList() {
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        CollectionReference collectionRef = db.collection("food");
-//        collectionRef.get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        System.out.println("확인요망");
-//                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-//                            String ingredient = (String) document.get("INGREDIENT");
-//                            if (ingredient != null) {
-//                                list.add(ingredient);
-//                                //System.out.println(list);
-//                            }
-//                        }
-//
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        // 오류 처리
-//                    }
-//                });
-//    }
 }
