@@ -17,13 +17,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JoinActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
+    private FirebaseFirestore firestore; // Firestore 인스턴스 추가
     private Button joinButton;
     private EditText emailEditText;
     private EditText pwEditText;
@@ -36,9 +40,10 @@ public class JoinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.join_activity);
+
         auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance(); // Firestore 인스턴스 초기화
 
         joinButton = (Button)findViewById(R.id.join_confirm_button);
         emailEditText = (EditText)findViewById(R.id.join_email_edittext);
@@ -49,8 +54,6 @@ public class JoinActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
-
 
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,27 +63,31 @@ public class JoinActivity extends AppCompatActivity {
                 repassword = rePwEditText.getText().toString();
 
                 if(isEmail(email)){
-                    if(password.length()>6) {
-                        return;
-                    }
-                    if(password.equals(repassword)){
-                        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(view.getContext(), "회원가입에 성공하였습니다.", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent();
-                                    setResult(RESULT_OK, intent);
-                                    finish();
-                                }else{
-                                    Toast.makeText(view.getContext(), "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT).show();
+                    if(password.length() >= 6) {
+                        if(password.equals(repassword)){
+                            auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful()){
+                                        // 회원가입 성공 후 Firestore에 사용자 컬렉션 생성
+                                        createCollectionForUser(task.getResult().getUser().getUid());
+
+                                        Toast.makeText(view.getContext(), "회원가입에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent();
+                                        setResult(RESULT_OK, intent);
+                                        finish();
+                                    }else{
+                                        Toast.makeText(view.getContext(), "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
-                    }else{
-                        Toast.makeText(view.getContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                        pwEditText.setText("");
-                        rePwEditText.setText("");
+                            });
+                        }else{
+                            Toast.makeText(view.getContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                            pwEditText.setText("");
+                            rePwEditText.setText("");
+                        }
+                    } else {
+                        Toast.makeText(view.getContext(), "비밀번호는 6자리 이상이어야 합니다.", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(view.getContext(), "이메일 주소가 맞지않는 형식입니다.", Toast.LENGTH_SHORT).show();
@@ -100,6 +107,14 @@ public class JoinActivity extends AppCompatActivity {
         }
         return returnValue;
     }
+
+    private void createCollectionForUser(String userId) {
+        String username = email.replace("@1.com", "");
+
+        // 'users' 컬렉션 내에 사용자 UID를 문서 ID로 사용하고, 그 안에 'username' 필드에 사용자 아이디를 저장
+        firestore.collection("users").document(userId).set(Collections.singletonMap("username", username));
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
