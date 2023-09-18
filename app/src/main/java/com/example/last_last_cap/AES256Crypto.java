@@ -19,7 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AES256Crypto {
     public static byte[] ivBytes = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    public static String secretKey = "mealkit";
+    public static String secretKey = "mealplanmealplan";
 
     public static String AES_Encode(String str) throws java.io.UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
         byte[] textBytes = str.getBytes("UTF-8");

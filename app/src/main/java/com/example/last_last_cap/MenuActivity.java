@@ -32,7 +32,7 @@ public class MenuActivity extends AppCompatActivity {
         adapter.addFragment(new FridgeFragment(), "냉장고");
         adapter.addFragment(new RecipeFragment(), "레시피");
         adapter.addFragment(new AllergyFragment(), "알러지");
-        adapter.addFragment(new BookmarkFragment(), "북마크");
+        adapter.addFragment(new SettingFragment(), "설정");
         viewPager.setAdapter(adapter);
     }
 
