@@ -37,6 +37,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,6 +56,8 @@ public class FridgeFragment extends Fragment {
     private AlertDialog currentDialog;
     private TableLayout buttonContainer;
     private List<Button> buttons;
+
+
     Activity activity;
     private List<String> list;
 
@@ -63,9 +67,29 @@ public class FridgeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fridge, container, false);
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference usersCollection = db.collection("users");
         buttonContainer = view.findViewById(R.id.buttonContainer);
         buttons = new ArrayList<>();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        String userUID  = user.getUid();//uid
+
+        CollectionReference ingredientsCollection = usersCollection.document(userUID).collection("ingredients");
+        ingredientsCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String ingredientName = document.getString("name");
+                        addButtonWithName(ingredientName);
+                    }
+                } else {
+                    // 데이터 가져오기 실패
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
 
         Button addButton = view.findViewById(R.id.addButton);
 
@@ -197,10 +221,13 @@ public class FridgeFragment extends Fragment {
         input_textButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentDialog.dismiss();
+
 //                showAddWithTextDialog(categoryName);
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 intent.putExtra("list", (Serializable) list);
                 startActivity(intent);
+
             }
         });
         AlertDialog dialog = builder.create();
@@ -211,67 +238,7 @@ public class FridgeFragment extends Fragment {
 
 
     //텍스트로 추가하는 경우에 대한 함수
-    private void  showAddWithTextDialog(String categoryName){
 
-        if (currentDialog != null && currentDialog.isShowing()) {
-            currentDialog.dismiss();
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.add_with_text, null);
-        builder.setView(dialogView);
-
-
-        TextView checkTextView = dialogView.findViewById(R.id.check);
-        checkTextView.setText(categoryName+" 재료명");
-
-        // AutoCompleteTextView에 자동완성 되게 할 list를 추가해두었음. 앞으로 db에서 받아와서 list 생성하는 형태로 이루어져야함
-        String[] autoCompleteOptions = new String[] {
-                "ab", "abc", "adfasdf","dag","hello","lsdifjsad","sedd", "aa", "aaaa", "aaa", "aaaaa" // 원하는 옵션들을 추가하세요
-        };
-
-
-        //AutoCompleteTextView 와 자동완성시킬 list 엮는 코드
-        AutoCompleteTextView ingredient_list = dialogView.findViewById(R.id.ingredient_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, autoCompleteOptions);
-        ingredient_list.setAdapter(adapter);
-
-
-        //달력 다이얼로그 키는 버튼
-        Button set_expiration_date_button = dialogView.findViewById(R.id.set_expiration_date_button);
-        TextView view_expiration_date_textview = dialogView.findViewById(R.id.view_expiration_date_textview);
-        // 달력 다이얼로그 띄워서, 사용자가 선택한 날짜가 view_expiration_date_textview에 출력. selectedDate에 사용자가 선택한 날짜 넣음
-        set_expiration_date_button.setOnClickListener(v -> {
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                    (view, year1, monthOfYear, dayOfMonth) -> {
-                        String selectedDate = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                        view_expiration_date_textview.setText(selectedDate);
-                    }, year, month, day);
-
-            datePickerDialog.show();
-        });
-
-        //재료 이름을 버튼 추가하는 기능
-        builder.setPositiveButton("Add", (dialog, which) -> {
-            String name = ingredient_list.getText().toString();
-            addButtonWithName(name);
-            dialog.dismiss();
-        });
-
-        builder.setNegativeButton("Cancel", null);
-
-
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        currentDialog = dialog;
-
-    }
     private void addButtonWithName(String name) {
         Button button = new Button(getActivity());
         button.setText(name);

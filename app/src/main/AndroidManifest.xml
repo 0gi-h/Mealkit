@@ -24,7 +24,8 @@
         <activity android:name=".LoadingActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity android:name=".MenuActivity" android:label="Menu Activity"/>
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".SearchActivity"></activity>\
+        <activity android:name=".SearchAdapter"></activity>
         <activity android:name=".PopupActivity"></activity>
         <activity android:name=".datePickerActivity"></activity>
         <activity android:name=".JoinActivity"/>
