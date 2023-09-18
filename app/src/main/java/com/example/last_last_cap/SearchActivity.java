@@ -98,14 +98,14 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                Intent intent = new Intent(getApplicationContext(), datePickerActivity.class);
-//
-//
-//                intent.putExtra("contact_phone", food) ;
-//                intent.putExtra("isDetection",false);
-//
-//
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), datePickerActivity.class);
+
+
+                intent.putExtra("contact_phone", food) ;
+                intent.putExtra("isDetection",false);
+
+
+                startActivity(intent);
             }
         });
 
