@@ -29,6 +29,7 @@
         <activity android:name=".PopupActivity"></activity>
         <activity android:name=".datePickerActivity"></activity>
         <activity android:name=".JoinActivity"/>
+        <activity android:name=".IngredientVerificationActivity" />
 
 
     </application>

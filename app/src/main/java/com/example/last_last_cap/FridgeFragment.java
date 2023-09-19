@@ -6,22 +6,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -29,23 +21,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,7 +41,12 @@ import java.util.List;
 public class FridgeFragment extends Fragment {
     private AlertDialog currentDialog;
     private TableLayout buttonContainer;
-    private List<Button> buttons;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference usersCollection = db.collection("users");
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
+    String userUID  = user.getUid();//uid
 
 
     Activity activity;
@@ -67,27 +58,26 @@ public class FridgeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fridge, container, false);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference usersCollection = db.collection("users");
         buttonContainer = view.findViewById(R.id.buttonContainer);
-        buttons = new ArrayList<>();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        String userUID  = user.getUid();//uid
 
-        CollectionReference ingredientsCollection = usersCollection.document(userUID).collection("ingredients");
-        ingredientsCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirestoreDataManager.addIngredientsListener(userUID, new FirestoreDataManager.OnDataFetchedListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String ingredientName = document.getString("name");
-                        addButtonWithName(ingredientName);
-                    }
-                } else {
-                    // 데이터 가져오기 실패
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+            public void onDataFetched(List<IngredientData> data) {
+
+                buttonContainer.removeAllViews();
+
+                // 데이터를 사용하는 로직을 여기에 구현
+                // 데이터가 변경될 때마다 이 부분이 호출됩니다.
+                // 변경된 데이터를 사용하여 addButtonWithName 또는 UI 업데이트 로직을 호출합니다.
+                for (IngredientData ingredientData : data) {
+                    addButtonWithName(ingredientData.getName(),ingredientData.getDate());
                 }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                // 오류 처리 로직을 여기에 구현
+                Log.e(TAG, errorMessage);
             }
         });
 
@@ -96,7 +86,6 @@ public class FridgeFragment extends Fragment {
         Button addButton2 = view.findViewById(R.id.addButton2);
         //앞으로 addButton2를 이용하여, 재료추가 기능을 만들 예정. 그로인해 showAddDialog()함수대신 showAddDialog2()함수 사용예정
 
-        addButton.setOnClickListener(v -> showAddDialog());
         addButton2.setOnClickListener(v -> showAddDialog2());
         Button calendarButton = view.findViewById(R.id.calendarButton);
         calendarButton.setOnClickListener(v -> showCalendarDialog());
@@ -104,28 +93,6 @@ public class FridgeFragment extends Fragment {
         return view;
     }
 
-    //showAddDialog에서 db에 입력한 재료를 저장해야 하는 코드 필요
-
-    //이제 필요없음
-    private void showAddDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("add");
-
-        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_add_button, null);
-        builder.setView(dialogView);
-
-        final EditText nameEditText = dialogView.findViewById(R.id.nameEditText);
-
-        builder.setPositiveButton("Add", (dialog, which) -> {
-            String name = nameEditText.getText().toString();
-            addButtonWithName(name);
-        });
-
-        builder.setNegativeButton("Cancel", null);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
 
     private void showAddDialog2(){
@@ -191,17 +158,17 @@ public class FridgeFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.select_to_add_ingredient, null);
         builder.setView(dialogView);
-        
-        
+
+
         //현재 추가하려는 재료의 카테고리가 어느 카테고리인지 출력. 앞선 showAddDialog2함수에서 가져온 카테고리 이름을 출력
         TextView categoryTextView = dialogView.findViewById(R.id.category_name);
         categoryTextView.setText(categoryName+" 카테고리");
-        
+
         Button input_textButton=dialogView.findViewById(R.id.input_text);
         Button using_cameraButton=dialogView.findViewById(R.id.using_camera);
         Button barcodeButton=dialogView.findViewById(R.id.barcode);
-        
-        
+
+
         //사진 기능(추후 업데이트 예정)
         using_cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,10 +202,9 @@ public class FridgeFragment extends Fragment {
         currentDialog = dialog;
 
     }
+    // 기존 버튼들을 삭제하는 함수
 
-
-    //텍스트로 추가하는 경우에 대한 함수
-
+    // 재료를 버튼으로 추가하는 함수
     private void addButtonWithName(String name) {
         Button button = new Button(getActivity());
         button.setText(name);
@@ -266,7 +232,90 @@ public class FridgeFragment extends Fragment {
 
         lastTableRow.addView(button);
 
-        buttons.add(button);
+        // 버튼 클릭 이벤트 설정
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showIngredientVerificationDialog(name);
+            }
+        });
+    }
+    private void addButtonWithName(String name, String expirationDate) {
+        Button button = new Button(getActivity());
+        button.setText(name);
+
+        TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.weight = 1; // Equally distribute buttons within TableRow
+
+        button.setLayoutParams(layoutParams);
+
+        TableLayout buttonContainer = getView().findViewById(R.id.buttonContainer);
+        TableRow lastTableRow = null;
+
+        if (buttonContainer.getChildCount() > 0) {
+            lastTableRow = (TableRow) buttonContainer.getChildAt(buttonContainer.getChildCount() - 1);
+        }
+
+        if (lastTableRow == null || lastTableRow.getChildCount() >= 3) {
+            // Add a new TableRow for a new row
+            lastTableRow = new TableRow(getActivity());
+            buttonContainer.addView(lastTableRow);
+        }
+
+        lastTableRow.addView(button);
+
+        // 버튼 클릭 이벤트 설정
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showIngredientVerificationDialog(name, expirationDate);
+            }
+        });
+    }
+
+    private void getExpirationDate(String ingredientName) {
+        // 파이어베이스에서 해당 재료의 유통기한을 가져옵니다.
+
+        DocumentReference docRef = db.collection("users").document(userUID)
+                .collection("ingredients").document(ingredientName);
+
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                String expirationDate = documentSnapshot.getString("date");
+                // name과 expirationDate를 함께 전달합니다.
+                addButtonWithName(ingredientName, expirationDate);
+            }
+        }).addOnFailureListener(e -> {
+            // 오류 처리
+        });
+    }
+
+    private void showIngredientVerificationDialog(String ingredientName, String expirationDate) {
+        if (currentDialog != null && currentDialog.isShowing()) {
+            currentDialog.dismiss();
+        }
+
+        // IngredientVerificationActivity를 시작하고 재료 이름과 유통기한을 전달합니다.
+        Intent intent = new Intent(getActivity(), IngredientVerificationActivity.class);
+        intent.putExtra("ingredientName", ingredientName);
+        intent.putExtra("expirationDate", expirationDate);
+        startActivity(intent);
+    }
+
+    // showAddDialog2 메서드의 addButtonWithName 호출 부분 수정
+
+    private void showIngredientVerificationDialog(String ingredientName) {
+        if (currentDialog != null && currentDialog.isShowing()) {
+            currentDialog.dismiss();
+        }
+
+        // IngredientVerificationActivity를 시작하고 재료 이름을 전달합니다.
+        Intent intent = new Intent(getActivity(), IngredientVerificationActivity.class);
+        intent.putExtra("ingredientName", ingredientName);
+        startActivity(intent);
     }
 
     private void showCalendarDialog() {
@@ -332,4 +381,3 @@ public class FridgeFragment extends Fragment {
                 });
     }
 }
-
