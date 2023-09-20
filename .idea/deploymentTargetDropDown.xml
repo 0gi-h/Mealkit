@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-<<<<<<< HEAD
     <value>
       <entry key="app">
         <State />
       </entry>
     </value>
-=======
-    <runningDeviceTargetSelectedWithDropDown>
-      <Target>
-        <type value="RUNNING_DEVICE_TARGET" />
-        <deviceKey>
-          <Key>
-            <type value="SERIAL_NUMBER" />
-            <value value="192.168.255.101:5555" />
-          </Key>
-        </deviceKey>
-      </Target>
-    </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2023-09-18T11:23:04.100013700Z" />
->>>>>>> parent of 4fb95f4 (화면에 재료 추가시 바로 버튼 추가 및 재료 상세 xml 연결 완료)
   </component>
 </project>
