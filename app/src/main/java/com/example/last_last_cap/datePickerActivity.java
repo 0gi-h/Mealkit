@@ -33,7 +33,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-//activity_date_picker.xml과 연관
+
 public class datePickerActivity extends AppCompatActivity{
 
     private FirebaseFirestore db;
@@ -186,7 +186,7 @@ public class datePickerActivity extends AppCompatActivity{
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(view.getContext(), "추가에 성공했습니다", Toast.LENGTH_SHORT).show();
-                            finish();
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

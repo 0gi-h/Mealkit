@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,7 +53,6 @@ public class SearchActivity extends AppCompatActivity {
 
         editSearch = (EditText) findViewById(R.id.editSearch);
         listView = (ListView) findViewById(R.id.listView);
-
 
         // 리스트를 생성한다.
         food = new ArrayList<String>();
@@ -106,8 +104,8 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("contact_phone", food) ;
                 intent.putExtra("isDetection",false);
 
+
                 startActivity(intent);
-                finish();
             }
         });
 
