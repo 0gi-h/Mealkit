@@ -105,11 +105,6 @@ public class datePickerActivity extends AppCompatActivity{
 
         Date date = new Date();
 
-
-
-
-
-
         //this.InitializeView();
         //this.InitializeListener();
 
