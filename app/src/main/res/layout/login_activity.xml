@@ -30,7 +30,6 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/rounded_brn"
         android:fontFamily="@font/cookie_r"
         android:text="로그인"
         android:textColor="#ffffff"
@@ -68,6 +67,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
         android:fontFamily="@font/cookie_r"
+
         android:text="회원가입"
         android:textColor="#adb5bd"
         android:textSize="18dp"

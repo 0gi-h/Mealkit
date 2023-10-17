@@ -19,7 +19,7 @@ public class MenuActivity extends AppCompatActivity {
         show=findViewById(R.id.show_original_num);
         Intent intent = getIntent();
         String name = getIntent().getStringExtra("name");
-        show.setText(name + "님의 냉장고입니다.");
+        show.setText("\'"+name +"\'"+ "의 냉장고");
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         setupViewPager(viewPager);

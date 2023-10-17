@@ -1,9 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.LAST_LAST_CAP" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.LAST_LAST_CAP" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="buttonStyle">@style/GreenButton</item>
+        <item name="colorAccent">@color/tfe_color_accent</item>
+
+
+    </style>
+    <style name="GreenButton" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">#a1c448</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#808080</item>
     </style>
 
+    <style name="TransparentBottomSheetDialogFragment" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetDialogFragmentChild</item>
+    </style>
+
+    <style name="TransparentBottomSheetDialogFragmentChild" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">#00000000</item>
+    </style>
     <style name="Theme.LAST_LAST_CAP" parent="Base.Theme.LAST_LAST_CAP" />
 </resources>
