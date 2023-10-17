@@ -8,12 +8,14 @@
     <Button
         android:id="@+id/addButton2"
         android:layout_width="72dp"
-        android:layout_height="75dp"
+        android:layout_height="0dp"
         android:layout_marginStart="236dp"
         android:layout_marginTop="512dp"
+        android:layout_marginBottom="21dp"
         android:text="+"
         android:textColor="#ffffff"
         android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvMatchedFoods"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,14 +34,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        app:layout_constraintHorizontal_bias="0.5" />
-
+        tools:ignore="MissingConstraints" />
 
 
     <Button
@@ -54,7 +55,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btnCheckMatchedFoods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="일치하는 음식 확인"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvMatchedFoods"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnCheckMatchedFoods"
+        android:layout_marginBottom="596dp"
+        android:padding="10dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addButton2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
