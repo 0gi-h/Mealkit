@@ -35,7 +35,7 @@ public class AllergyDialogFragment extends DialogFragment {
         checkBoxFish = view.findViewById(R.id.checkbox_fish);
         checkBoxShellfish = view.findViewById(R.id.checkbox_shellfish);
 
-        Button addButton = view.findViewById(R.id.add_allergy_dialog_button);
+        Button addButton = view.findViewById(R.id.add_allergy_dialog_button2);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

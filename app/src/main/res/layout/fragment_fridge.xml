@@ -9,9 +9,10 @@
         android:id="@+id/addButton2"
         android:layout_width="72dp"
         android:layout_height="75dp"
-        android:layout_marginStart="236dp"
-        android:layout_marginTop="512dp"
+        android:layout_marginStart="316dp"
+        android:layout_marginTop="516dp"
         android:text="+"
+        android:textStyle="bold"
         android:textColor="#ffffff"
         android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +25,7 @@
         android:layout_marginStart="316dp"
         android:layout_marginTop="4dp"
         android:text="달력"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,17 +44,6 @@
 
 
 
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="72dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="316dp"
-        android:layout_marginTop="512dp"
-        android:text="+"
-        android:textColor="#ffffff"
-        android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 
