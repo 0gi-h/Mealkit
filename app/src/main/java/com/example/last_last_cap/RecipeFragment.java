@@ -1,18 +1,24 @@
 package com.example.last_last_cap;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.example.last_last_cap.R;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +30,7 @@ public class RecipeFragment extends Fragment {
     private List<String> data;
 
     public RecipeFragment() {
-        // Required empty public constructor
+        // 필요한 공개 생성자
     }
 
     @Override
@@ -34,49 +40,68 @@ public class RecipeFragment extends Fragment {
         searchView = view.findViewById(R.id.searchView);
         listView = view.findViewById(R.id.listView);
         data = new ArrayList<>();
-        data.add("오늘의 랜덤 음식");
-        data.add("김치찌개");
-        data.add("된장찌개");
-        data.add("제육 볶음");
-        data.add("오징어볶음");
-        data.add("볶음김치");
-        data.add("참치김밥");
-        data.add("우동");
-        data.add("돈까스");
-        data.add("계란찜");
-        data.add("간장계란밥");
+        data.add("백종원 김치찌개");
+        data.add("맛있는 김치찌개");
+        data.add("매콤한 김치찌개");
         adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, data);
         listView.setAdapter(adapter);
 
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("검색어를 입력하시오");
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = adapter.getItem(position);
+                new FetchRecipeTask().execute(selectedItem);
             }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(removeSpaces(newText), new Filter.FilterListener() {
-                    @Override
-                    public void onFilterComplete(int count) {
-                        if (count == 0) {
-                            // 필터링 결과가 없을 때의 동작
-                        }
-                    }
-                });
-                return true;
-            }
-
-            private String removeSpaces(String text) {
-                return text.replaceAll(" ", "");
-            }
-
         });
 
         return view;
     }
 
+    private class FetchRecipeTask extends AsyncTask<String, Void, List<String>> {
+        @Override
+        protected List<String> doInBackground(String... strings) {
+            List<String> results = new ArrayList<>();
+            String searchQuery = strings[0];
+            String searchUrl = "https://www.10000recipe.com/recipe/list.html?q=" + searchQuery;
+            try {
+                Document document = Jsoup.connect(searchUrl).get();
+                Element firstRecipe = document.select(".common_sp_list_ul li").first();
+                if (firstRecipe != null) {
+                    Element recipeLinkElement = firstRecipe.select("a[href]").first();
+                    if (recipeLinkElement != null) {
+                        String recipeLink = "https://www.10000recipe.com" + recipeLinkElement.attr("href");
+                        Document recipeDocument = Jsoup.connect(recipeLink).get();
+                        Elements stepDivs = recipeDocument.select("[id^=stepDiv]");
+                        int stepCount = 1;
+                        for (Element stepDiv : stepDivs) {
+                            String content = stepDiv.select(".media-body").text();
+                            results.add("Step" + stepCount + ": " + content); // 여기에서 "Step" + stepCount 로 스텝 번호를 부여합니다.
+                            stepCount++;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return results;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> results) {
+            super.onPostExecute(results);
+
+            LinearLayout resultLayout = getView().findViewById(R.id.resultLayout);
+            resultLayout.removeAllViews(); // 이전 결과를 삭제합니다.
+
+            for (String result : results) {
+                TextView textView = new TextView(getContext());
+                textView.setText(result);
+                textView.setPadding(0, 8, 0, 8);
+                resultLayout.addView(textView);
+            }
+        }
+    }
 }
