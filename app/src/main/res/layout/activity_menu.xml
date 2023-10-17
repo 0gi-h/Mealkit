@@ -2,8 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <TextView
+        android:layout_gravity="center"
+        android:fontFamily="@font/cookie_r"
         android:id="@+id/show_original_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,9 +22,11 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
+        android:background="#a1c448"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
+        app:tabTextColor="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">

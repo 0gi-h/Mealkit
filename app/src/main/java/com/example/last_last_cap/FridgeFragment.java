@@ -81,7 +81,6 @@ public class FridgeFragment extends Fragment {
             }
         });
 
-        Button addButton = view.findViewById(R.id.addButton);
 
         Button addButton2 = view.findViewById(R.id.addButton2);
         //앞으로 addButton2를 이용하여, 재료추가 기능을 만들 예정. 그로인해 showAddDialog()함수대신 showAddDialog2()함수 사용예정

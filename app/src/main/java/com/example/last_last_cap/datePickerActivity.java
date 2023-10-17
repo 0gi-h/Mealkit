@@ -75,23 +75,23 @@ public class datePickerActivity extends AppCompatActivity{
         super.onResume();
         db.collection("users").document(SaveSharedPreferences.getKeyForDB(datePickerActivity.this))
                 .collection("ingredients").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    id=0;
-                    ld=0;
-                    res=0;
-                    for (DocumentSnapshot document : task.getResult()) {
-                        res++;
-                        if(ld < Integer.parseInt(document.getId()) ) {
-                            ld = Integer.parseInt(document.getId());
-                        }
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            id=0;
+                            ld=0;
+                            res=0;
+                            for (DocumentSnapshot document : task.getResult()) {
+                                res++;
+                                if(ld < Integer.parseInt(document.getId()) ) {
+                                    ld = Integer.parseInt(document.getId());
+                                }
 
+                            }
+                        } else {
+                        }
                     }
-                } else {
-                }
-            }
-        });
+                });
     }
 
     @Override
@@ -183,17 +183,17 @@ public class datePickerActivity extends AppCompatActivity{
 
                     db.collection("users").document(SaveSharedPreferences.getKeyForDB(datePickerActivity.this))
                             .collection("ingredients").document(Integer.toString(id)).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(view.getContext(), "추가에 성공했습니다", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(view.getContext(), "추가에 실패했습니다", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(view.getContext(), "추가에 성공했습니다", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(view.getContext(), "추가에 실패했습니다", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                     id++;
                 }
 //                ((SubActivity)SubActivity.context).onResume();

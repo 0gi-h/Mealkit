@@ -10,7 +10,7 @@
         android:id="@+id/popup_title"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:background="#50CC6B"
+        android:background="#a1c448"
         android:text="냉장고 고유번호"
         android:textAlignment="center"
         android:textSize="20dp"
