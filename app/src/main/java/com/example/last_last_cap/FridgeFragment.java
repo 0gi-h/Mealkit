@@ -121,7 +121,7 @@ public class FridgeFragment extends Fragment {
         //각 버튼에 해당하는 카테고리 추가로 넘어감. 넘어갈때 카테고리 이름 가지고 넘어가도록 설정해두었음.
         graiButton.setOnClickListener(v -> showSelectToAddIngredientDialog("곡류"));
         vegButton.setOnClickListener(v -> showSelectToAddIngredientDialog("채소"));
-        fruitButton.setOnClickListener(v ->showSelectToAddIngredientDialog("과일"));
+        fruitButton.setOnClickListener(v ->showSelectToAddIngredientDialog("과일류"));
         porkButton.setOnClickListener(v ->showSelectToAddIngredientDialog("돼지고기"));
         chickenButton.setOnClickListener(v ->showSelectToAddIngredientDialog("닭고기"));
         beafButton.setOnClickListener(v ->showSelectToAddIngredientDialog("소고기"));
@@ -242,6 +242,184 @@ public class FridgeFragment extends Fragment {
     private void addButtonWithName(String name, String expirationDate) {
         Button button = new Button(getActivity());
         button.setText(name);
+        //버튼에 사진넣기 (열지마세요)
+        switch(name){
+            case "오징어":   case "문어":case "낙지":
+                button.setCompoundDrawablesWithIntrinsicBounds( 0,R.drawable.c, 0, 0);
+                break;
+            case "된장":
+                button.setCompoundDrawablesWithIntrinsicBounds( 0,R.drawable.a, 0, 0);
+                break;
+            case "고추장":
+                button.setCompoundDrawablesWithIntrinsicBounds( 0,R.drawable.b, 0, 0);
+                break;
+            case "소금":
+                button.setCompoundDrawablesWithIntrinsicBounds( 0,R.drawable.d, 0, 0);
+                break;
+            case "설탕":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.e,0, 0);
+                break;
+            case "크림": case "버터": case "치즈":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.f,0, 0);
+                break;
+            case "우유":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.g,0, 0);
+                break;
+            case "꼬막": case "가리비":case "굴":case "맛조개":case "바지락":case "전복":case "재첩":case "키조개":case "홍합":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.h,0, 0);
+                break;
+            case "새우": case "대하":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.i,0, 0);
+                break;
+            case "꽃게": case "대게":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.j,0, 0);
+                break;
+            case "가자미": case "갈치":case "고등어":case "광어":case "멸치":case "장어": case "연어":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.k,0, 0);
+                break;
+            case "수박":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.l,0, 0);
+                break;
+            case "귤":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.m,0, 0);
+                break;
+            case "한라봉":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.n,0, 0);
+                break;
+            case "사과":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.o,0, 0);
+                break;
+            case "포도":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.p,0, 0);
+                break;
+            case "자두":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.q,0, 0);
+                break;
+            case "블루베리":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.r,0, 0);
+                break;
+            case "복숭아":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.s,0, 0);
+                break;
+            case "매실":case "복분자":case "살구":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.t,0, 0);
+                break;
+            case "닭봉":case "닭날개":case "닭다리":case "닭발":case "닭가슴살":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.u,0, 0);
+                break;
+            case "새우살":case "부채살":case "채끝살":case "안심살":case "아롱사태": case"차돌박이": case"토마호크":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.v,0, 0);
+                break;
+            case "항정살":case "가브리살":case "목살":case "등심":case "뒷다리살": case"삼겹살":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.w,0, 0);
+                break;
+            case "달걀":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.x,0, 0);
+                break;
+            case "파프리카":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.y,0, 0);
+                break;
+            case "파":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.z,0, 0);
+                break;
+            case "청경채":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.aa,0, 0);
+                break;
+            case "오이":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ab,0, 0);
+                break;
+            case "양파":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ac,0, 0);
+                break;
+            case "시금치":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ad,0, 0);
+                break;
+            case "숙주나물":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ae,0, 0);
+                break;
+            case "생강":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.af,0, 0);
+                break;
+            case "상추":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ag,0, 0);
+                break;
+            case "버섯":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ah,0, 0);
+                break;
+            case "양배추":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ai,0, 0);
+                break;
+            case "무":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.aj,0, 0);
+                break;
+            case "멜론":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ak,0, 0);
+                break;
+            case "마늘":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.al,0, 0);
+                break;
+            case "딸기":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.am,0, 0);
+                break;
+            case "당근":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.an,0, 0);
+                break;
+            case "고추":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ao,0, 0);
+                break;
+            case "고사리":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ap,0, 0);
+                break;
+            case "고구마":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.aq,0, 0);
+                break;
+            case "감자":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ar,0, 0);
+                break;
+            case "아몬드":        case "은행":        case "헤이즐넛":        case "땅콩":        case "호두":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.as,0, 0);
+                break;
+            case "깻잎":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.at,0, 0);
+                break;
+            case "바나나":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.au,0, 0);
+                break;
+            case "배추":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.av,0, 0);
+                break;
+            case "브로콜리":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.aw,0, 0);
+                break;
+            case "도라지":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ax,0, 0);
+                break;
+            case "율무":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ay,0, 0);
+                break;
+            case "대두":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.az,0, 0);
+                break;
+            case "호밀":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ba,0, 0);
+                break;
+            case "귀리":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bb,0, 0);
+                break;
+            case "보리":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bc,0, 0);
+                break;
+            case "옥수수":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bd,0, 0);
+                break;
+            case "밀":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.be,0, 0);
+                break;
+            case "밀가루":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bf,0, 0);
+                break;
+        }
+
 
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
