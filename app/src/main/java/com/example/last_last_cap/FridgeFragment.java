@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -246,6 +247,7 @@ public class FridgeFragment extends Fragment {
         switch(name){
             case "오징어":   case "문어":case "낙지":
                 button.setCompoundDrawablesWithIntrinsicBounds( 0,R.drawable.c, 0, 0);
+
                 break;
             case "된장":
                 button.setCompoundDrawablesWithIntrinsicBounds( 0,R.drawable.a, 0, 0);
@@ -419,15 +421,19 @@ public class FridgeFragment extends Fragment {
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bf,0, 0);
                 break;
         }
+        button.setBackgroundResource(R.drawable.round_button_background);
 
+        button.setCompoundDrawablePadding(10);
 
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.WRAP_CONTENT
         );
-        layoutParams.weight = 1; // Equally distribute buttons within TableRow
+        layoutParams.setMargins(3, 0, 3, 0); // left, top, right, bottom margins
+
 
         button.setLayoutParams(layoutParams);
+        button.setTypeface(null, Typeface.BOLD);
 
         TableLayout buttonContainer = getView().findViewById(R.id.buttonContainer);
         TableRow lastTableRow = null;
