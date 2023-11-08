@@ -56,7 +56,6 @@ public class SaveSharedPreferences {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         String keyId = AES256Crypto.AES_Decode(cryptoUserUid);
         editor.putString("KeyForDB", keyId);
-        System.out.println(1);
         System.out.println(keyId);
         editor.commit();
     }

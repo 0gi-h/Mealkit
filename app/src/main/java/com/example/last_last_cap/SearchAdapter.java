@@ -70,8 +70,6 @@ public class SearchAdapter extends BaseAdapter {
         return convertView;
     }
 
-
-
     public void remove(String object) {
         list.remove(object);
         notifyDataSetChanged();
