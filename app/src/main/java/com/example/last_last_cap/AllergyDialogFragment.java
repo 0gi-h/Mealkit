@@ -8,16 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AllergyDialogFragment extends DialogFragment {
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<String> selectedAllergies = new ArrayList<>();
     private CheckBox checkBoxPeanuts, checkBoxSoy, checkBoxWheat, checkBoxMilk, checkBoxEggs, checkBoxFish, checkBoxShellfish;
     private OnAllergySelectedListener onAllergySelectedListener;
@@ -40,6 +45,7 @@ public class AllergyDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 addAllergy();
+
             }
         });
 

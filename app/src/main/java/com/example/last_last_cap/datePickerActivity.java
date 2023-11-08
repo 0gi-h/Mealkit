@@ -340,8 +340,8 @@ public class datePickerActivity extends AppCompatActivity{
                             PendingIntent penIntent = PendingIntent.getBroadcast(datePickerActivity.this, 0, receiverIntent, PendingIntent.FLAG_IMMUTABLE);
 
                             calendar.setTimeInMillis(System.currentTimeMillis());
-                            calendar.set(Calendar.HOUR_OF_DAY, 9);
-                            calendar.set(Calendar.MINUTE, 0);
+                            calendar.set(Calendar.HOUR_OF_DAY, 12);
+                            calendar.set(Calendar.MINUTE,30);
                             calendar.set(Calendar.SECOND, 0);
                             calendar.set(Calendar.MILLISECOND, 00);
 

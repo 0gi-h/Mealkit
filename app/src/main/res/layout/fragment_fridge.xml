@@ -9,13 +9,13 @@
         android:id="@+id/addButton2"
         android:layout_width="72dp"
         android:layout_height="75dp"
-        android:layout_marginStart="316dp"
+        android:layout_marginStart="300dp"
         android:layout_marginTop="516dp"
         android:text="+"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
+        android:backgroundTint="#80ffffff"
+        android:textColor="#000000"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvMatchedFoods"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,42 +30,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TableLayout
-        android:id="@+id/buttonContainer"
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        tools:ignore="MissingConstraints" />
-
-
-
-    <Button
-        android:id="@+id/btnCheckMatchedFoods"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="일치하는 음식 확인"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvMatchedFoods"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnCheckMatchedFoods"
-        android:layout_marginBottom="596dp"
-        android:padding="10dp"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addButton2" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints" />
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
