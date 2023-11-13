@@ -1,11 +1,17 @@
 package com.example.last_last_cap;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +38,11 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class RecipeFragment extends Fragment {
 
@@ -43,7 +52,6 @@ public class RecipeFragment extends Fragment {
     private List<String> data;
 
     public RecipeFragment() {
-        // 필요한 공개 생성자
     }
 
     @Override
@@ -56,22 +64,20 @@ public class RecipeFragment extends Fragment {
         adapter = new IngredientAdapter(requireContext(), R.layout.ingredient_item, new ArrayList<>());
         listView.setAdapter(adapter);
 
-        // Firebase Firestore 인스턴스를 가져옵니다.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // 현재 로그인한 사용자의 UID를 가져옵니다.
+        // 현재 로그인한 사용자의 UID로 목록 가져옴
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userUID = currentUser.getUid();
 
-            // 사용자의 재료 목록을 조회합니다.
+            // 냉장고 재료 가져오는 부분
             db.collection("users").document(userUID).collection("ingredients").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         List<String> userIngredients = new ArrayList<>();
                         for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            // 각 문서에서 'name' 필드를 가져옵니다.
                             String ingredientName = documentSnapshot.getString("name");
                             if (ingredientName != null) {
                                 userIngredients.add(ingredientName);
@@ -89,7 +95,7 @@ public class RecipeFragment extends Fragment {
                 }
             });
         }
-        // adapter 초기화
+
         adapter = new IngredientAdapter(requireContext(), R.layout.ingredient_item, new ArrayList<>());
         listView.setAdapter(adapter);
 
@@ -114,13 +120,14 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = adapter.getItem(position);
-                // 해당 재료를 사용하는 레시피 검색 등의 추가 기능 구현
             }
         });
 
         return view;
     }
 
+    //firestore 구조가 좀 바껴야할듯 현재 테스트로 김치찌개 제육볶음만 설정해놓음
+    //주재료를 먼저 알아야하고 그 주재료에 대한 요리들을 저장시켜놔야함
     private void fetchRecipesWithIngredients(List<String> ingredients) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         List<String> recipeNames = new ArrayList<>();
@@ -134,11 +141,10 @@ public class RecipeFragment extends Fragment {
                             if (documentSnapshot.exists()) {
                                 String recipesString = documentSnapshot.getString("recipes");
                                 if (recipesString != null && !recipesString.isEmpty()) {
-                                    String[] recipesArray = recipesString.split(","); // 쉼표로 구분하여 분리
-                                    Collections.addAll(recipeNames, recipesArray); // 배열을 리스트에 추가
+                                    String[] recipesArray = recipesString.split(","); // recipes필드에 쉼표로 구분해서 배열에 저장
+                                    Collections.addAll(recipeNames, recipesArray);
                                 }
                             }
-                            // 모든 재료에 대한 쿼리가 완료되었을 때 다이얼로그를 표시
                             if (ingredient.equals(ingredients.get(ingredients.size() - 1))) {
                                 showRecipeDialog(recipeNames);
                             }
@@ -151,28 +157,101 @@ public class RecipeFragment extends Fragment {
     }
 
 
-
-
+    //선택한 주재료에 대한 가능한 요리들 보여주는 다이얼로그, 요리 선택하면 재료 비교함
     private void showRecipeDialog(List<String> recipes) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("조회된 요리 목록");
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, recipes);
-        builder.setAdapter(arrayAdapter, null);
+
+        builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String selectedRecipe = arrayAdapter.getItem(which);
+                fetchRecipeIngredientsAndCompare(selectedRecipe);
+            }
+        });
 
         builder.setNegativeButton("닫기", null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
+    // firestore에서 선택된 요리의 재료 목록을 가져옴
+    //ex) 김치찌개 선택했으면 김치찌개의 재료들을 불러오는거임
+    private void fetchRecipeIngredientsAndCompare(String recipe) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("foods").document(recipe)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String ingredientsString = documentSnapshot.getString("ingredients");
+                            if (ingredientsString != null && !ingredientsString.isEmpty()) {
+                                List<String> recipeIngredients = Arrays.asList(ingredientsString.split(","));
+                                compareIngredients(recipeIngredients, recipe);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // 오류 처리
+                });
+    }
+
+    // firestore에서 가져온 재료와 사용자 재료를 비교
+    //
+    private void compareIngredients(List<String> recipeIngredients, String selectedRecipe) {
+        List<String> userIngredients = adapter.getItems(); // 사용자 재료
+        List<String> availableIngredients = new ArrayList<>();
+        List<String> missingIngredients = new ArrayList<>();
+
+        for (String ingredient : recipeIngredients) {
+            if (userIngredients.contains(ingredient)) { //contains로 확인하고
+                availableIngredients.add(ingredient); //있으면 availableIngredients에 추가
+            } else {
+                missingIngredients.add(ingredient); //없으면 missingIngredients에 추가
+            }
+        }
+
+        showComparisonResult(availableIngredients, missingIngredients, selectedRecipe);
+    }
+
+    // 재료 비교한 결과 보여주는 다이얼로그
+    private void showComparisonResult(List<String> available, List<String> missing, String selectedRecipe) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("재료 확인");
+
+        String availableIngredients = "가지고 있는 재료:\n" + TextUtils.join(", ", available);
+        String missingIngredients = "없는 재료:\n" + TextUtils.join(", ", missing);
+
+        builder.setMessage(availableIngredients + "\n\n" + missingIngredients);
+
+        builder.setPositiveButton("만개의 레시피 보기", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                fetchRecipeData(selectedRecipe);
+            }
+        });
+
+        builder.setNegativeButton("닫기", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
 
-    private class FetchRecipeTask extends AsyncTask<String, Void, List<String>> {
-        @Override
-        protected List<String> doInBackground(String... strings) {
-            List<String> results = new ArrayList<>();
-            String searchQuery = strings[0];
-            String searchUrl = "https://www.10000recipe.com/recipe/list.html?q=" + searchQuery;
+
+
+    //만갱의 레시피 크롤링
+    private void fetchRecipeData(String selectedRecipe) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            List<String> result = new ArrayList<>();
+            String searchUrl = "https://www.10000recipe.com/recipe/list.html?q=" + selectedRecipe;
             try {
                 Document document = Jsoup.connect(searchUrl).get();
                 Element firstRecipe = document.select(".common_sp_list_ul li").first();
@@ -185,7 +264,7 @@ public class RecipeFragment extends Fragment {
                         int stepCount = 1;
                         for (Element stepDiv : stepDivs) {
                             String content = stepDiv.select(".media-body").text();
-                            results.add("Step" + stepCount + ": " + content); // 여기에서 "Step" + stepCount 로 스텝 번호를 부여합니다.
+                            result.add("Step " + stepCount + ": " + content);
                             stepCount++;
                         }
                     }
@@ -193,22 +272,14 @@ public class RecipeFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return results;
-        }
 
-        @Override
-        protected void onPostExecute(List<String> results) {
-            super.onPostExecute(results);
-
-            LinearLayout resultLayout = getView().findViewById(R.id.resultLayout);
-            resultLayout.removeAllViews(); // 이전 결과를 삭제합니다.
-
-            for (String result : results) {
-                TextView textView = new TextView(getContext());
-                textView.setText(result);
-                textView.setPadding(0, 8, 0, 8);
-                resultLayout.addView(textView);
-            }
-        }
+            handler.post(() -> {
+                Intent intent = new Intent(getContext(), RecipeActivity.class);
+                intent.putStringArrayListExtra("recipeSteps", new ArrayList<>(result));
+                getContext().startActivity(intent);
+            });
+        });
     }
+
+
 }

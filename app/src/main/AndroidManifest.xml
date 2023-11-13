@@ -30,6 +30,7 @@
         <activity android:name=".datePickerActivity"></activity>
         <activity android:name=".JoinActivity"/>
         <activity android:name=".IngredientVerificationActivity" />
+        <activity android:name=".RecipeActivity"/>
 
         <receiver android:name=".AlarmReceiver"
             android:enabled="true"

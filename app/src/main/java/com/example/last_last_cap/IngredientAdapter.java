@@ -17,6 +17,9 @@ import java.util.List;
 public class IngredientAdapter extends ArrayAdapter<String> {
     private Context context;
     private List<String> ingredients;
+    public List<String> getItems() {
+        return ingredients;
+    }
     private SparseBooleanArray checkedItems = new SparseBooleanArray();
 
     public boolean isChecked(int position) {
@@ -24,7 +27,13 @@ public class IngredientAdapter extends ArrayAdapter<String> {
     }
 
     public void setChecked(int position, boolean isChecked) {
-        checkedItems.put(position, isChecked);
+        if (isChecked) {
+            checkedItems.clear();
+            checkedItems.put(position, true);
+        } else {
+            checkedItems.delete(position);
+        }
+        notifyDataSetChanged();
     }
 
     public IngredientAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
@@ -44,18 +53,17 @@ public class IngredientAdapter extends ArrayAdapter<String> {
         TextView textView = convertView.findViewById(R.id.ingredientText);
         CheckBox checkBox = convertView.findViewById(R.id.ingredientCheckBox);
 
-        // 기존의 체크 변경 리스너를 제거합니다.
         checkBox.setOnCheckedChangeListener(null);
 
-        // 체크박스의 체크 상태를 설정합니다.
         checkBox.setChecked(isChecked(position));
 
-        // 새로운 체크 변경 리스너를 설정합니다.
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             setChecked(position, isChecked);
         });
 
         textView.setText(ingredient);
+
+
 
         return convertView;
     }
