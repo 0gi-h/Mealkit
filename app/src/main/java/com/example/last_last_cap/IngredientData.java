@@ -16,9 +16,11 @@ public class IngredientData extends Activity {
 private String name;
 private String date;
 
-    public IngredientData(String name, String date) {
+private String id;
 
+    public IngredientData(String documentId,String name, String date) {
 
+        this.id = documentId;
 
         this.name = name;
         this.date = date;
@@ -30,5 +32,8 @@ private String date;
 
     public String getDate() {
         return date;
+    }
+    public String getid(){
+        return id;
     }
 }

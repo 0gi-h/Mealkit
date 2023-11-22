@@ -11,7 +11,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="normal_item_bg">#FFFFFFFF</color>
+    <color name="normal_item_bg">#a1c448</color>
     <color name="selected_item_bg">#00574B</color>
     <color name="tfe_color_primary">#ffa800</color>
     <color name="tfe_color_primary_dark">#ff6f00</color>

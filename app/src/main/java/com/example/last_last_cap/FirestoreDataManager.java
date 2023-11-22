@@ -36,9 +36,12 @@ public class FirestoreDataManager {
                 List<IngredientData> ingredientDataList = new ArrayList<>();
 
                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    String documentId = document.getId(); // 문서의 ID 가져오기
                     String ingredientName = document.getString("name");
                     String expirationDate = document.getString("date");
-                    IngredientData ingredientData = new IngredientData(ingredientName, expirationDate);
+
+                    // ID도 함께 저장
+                    IngredientData ingredientData = new IngredientData(documentId, ingredientName, expirationDate);
                     ingredientDataList.add(ingredientData);
                 }
 
@@ -49,7 +52,6 @@ public class FirestoreDataManager {
             }
         });
     }
-
 
     //파이어스토어에서 데이터 가져오는 함수
     public static void fetchIngredientsData(OnDataFetchedListener listener) {
@@ -70,9 +72,10 @@ public class FirestoreDataManager {
                                 List<IngredientData> ingredientDataList = new ArrayList<>();
 
                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String documentId = document.getId(); // 문서의 ID 가져오기
                                     String ingredientName = document.getString("name");
                                     String expirationDate = document.getString("date");
-                                    IngredientData ingredientData = new IngredientData(ingredientName, expirationDate);
+                                    IngredientData ingredientData = new IngredientData(documentId,ingredientName, expirationDate);
                                     ingredientDataList.add(ingredientData);
                                 }
 

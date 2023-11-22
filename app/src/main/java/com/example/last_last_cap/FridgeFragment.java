@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,13 +39,16 @@ import org.tensorflow.lite.examples.detection.DetectorActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 public class FridgeFragment extends Fragment {
     private AlertDialog currentDialog;
     private TableLayout buttonContainer;
-
+    String[] fish_allergy = {"가자미","갈치","고등어","광어","멸치","장어","연어","오징어","문어","낙지","대게","꽃게","새우","대하","꼬막",
+            "가리비","굴","맛조개","바지락","전복","재첩","키조개","홍합"};
+    String[] milk_allergy = {"우유","크림","버터","치즈"};
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference usersCollection = db.collection("users");
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -54,6 +58,7 @@ public class FridgeFragment extends Fragment {
 
     Activity activity;
     private List<String> list;
+    private List<String> allergy_list;
 
     @Override public void onAttach(Context context) { super.onAttach(context); if (context instanceof Activity) activity = (Activity) context; }
 
@@ -73,7 +78,7 @@ public class FridgeFragment extends Fragment {
                 // 데이터가 변경될 때마다 이 부분이 호출됩니다.
                 // 변경된 데이터를 사용하여 addButtonWithName 또는 UI 업데이트 로직을 호출합니다.
                 for (IngredientData ingredientData : data) {
-                    addButtonWithName(ingredientData.getName(),ingredientData.getDate());
+                    addButtonWithName(ingredientData.getid(),ingredientData.getName(),ingredientData.getDate());
                 }
             }
 
@@ -253,7 +258,7 @@ public class FridgeFragment extends Fragment {
             }
         });
     }
-    private void addButtonWithName(String name, String expirationDate) {
+    private void addButtonWithName(String id, String name, String expirationDate) {
         Button button = new Button(getActivity());
         button.setText(name);
         //버튼에 사진넣기 (열지마세요)
@@ -433,8 +438,104 @@ public class FridgeFragment extends Fragment {
             case "밀가루":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bf,0, 0);
                 break;
+            case "김":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bg,0, 0);
+                break;
         }
         button.setBackgroundResource(R.drawable.round_button_background);
+        CollectionReference allergyCollection = usersCollection.document(userUID).collection("ALLERGY");
+// 알러지 정보 가져오기
+        allergyCollection.document("어패류").get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            // "어패류" 알러지가 있는 경우
+                            List<String> fishAllergies = Arrays.asList(fish_allergy);
+
+                            // 현재 알러지가 fish_allergy 리스트에 포함되어 있다면 배경색을 붉은색으로 설정
+                            if (fishAllergies.contains(name)) {
+                                button.setTextColor(Color.RED);
+
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 알러지 데이터 가져오기 실패 시 처리
+                    }
+                });
+        allergyCollection.document("유제품").get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            // "유제품" 알러지가 있는 경우
+                            List<String> milkallegries = Arrays.asList(milk_allergy);
+
+                            // 현재 알러지가 fish_allergy 리스트에 포함되어 있다면 배경색을 붉은색으로 설정
+                            if (milkallegries.contains(name)) {
+                                button.setTextColor(Color.RED);
+
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 알러지 데이터 가져오기 실패 시 처리
+                    }
+                });
+
+        allergyCollection.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            String allergy = document.getId();
+
+                            // "땅콩"이 알러지에 포함되어 있다면 해당 버튼의 배경색을 붉은색으로 설정
+                            if ("땅콩".equals(allergy) && "땅콩".equals(name)) {
+                                button.setTextColor(Color.RED);
+
+                                break;
+                            }
+                            if ("복숭아".equals(allergy) && "복숭아".equals(name)) {
+                                button.setTextColor(Color.RED);
+
+                                break;
+
+                            }
+                            if ("대두".equals(allergy) && "대두".equals(name)) {
+                                button.setTextColor(Color.RED);
+
+                                break;
+
+                            }
+                            if ("밀".equals(allergy) && "밀".equals(name)) {
+                                button.setTextColor(Color.RED);
+
+                                break;
+
+                            }
+                            if ("달걀".equals(allergy) && "달걀".equals(name)) {
+                                button.setTextColor(Color.RED);
+
+                                break;
+
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 알러지 데이터 가져오기 실패 시 처리
+                    }
+                });
 
         button.setCompoundDrawablePadding(10);
 
@@ -467,39 +568,23 @@ public class FridgeFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showIngredientVerificationDialog(name, expirationDate);
+                showIngredientVerificationDialog(id,name, expirationDate);
             }
         });
     }
 
-    private void getExpirationDate(String ingredientName) {
-        // 파이어베이스에서 해당 재료의 유통기한을 가져옵니다.
 
-        DocumentReference docRef = db.collection("users").document(userUID)
-                .collection("ingredients").document(ingredientName);
+   private void showIngredientVerificationDialog(String id, String ingredientName, String expirationDate) {
+       if (currentDialog != null && currentDialog.isShowing()) {
+           currentDialog.dismiss();
+       }
 
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                String expirationDate = documentSnapshot.getString("date");
-                // name과 expirationDate를 함께 전달합니다.
-                addButtonWithName(ingredientName, expirationDate);
-            }
-        }).addOnFailureListener(e -> {
-            // 오류 처리
-        });
-    }
+       // IngredientVerificationActivity를 다이얼로그로 표시
+       IngredientVerificationActivity dialog = new IngredientVerificationActivity(getActivity(), id, ingredientName, expirationDate);
+       dialog.show();
+   }
 
-    private void showIngredientVerificationDialog(String ingredientName, String expirationDate) {
-        if (currentDialog != null && currentDialog.isShowing()) {
-            currentDialog.dismiss();
-        }
 
-        // IngredientVerificationActivity를 시작하고 재료 이름과 유통기한을 전달합니다.
-        Intent intent = new Intent(getActivity(), IngredientVerificationActivity.class);
-        intent.putExtra("ingredientName", ingredientName);
-        intent.putExtra("expirationDate", expirationDate);
-        startActivity(intent);
-    }
 
     // showAddDialog2 메서드의 addButtonWithName 호출 부분 수정
 

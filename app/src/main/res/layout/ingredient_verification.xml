@@ -4,116 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    >
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1.3"
+        android:fontFamily="@font/cookie_r"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        >
+        android:text="재료명"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:textStyle="bold"
-            android:fontFamily="@font/cookie_r"
+    <TextView
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="재료명"
-            android:paddingBottom="10dp"
-            android:textSize="20dp"
-            android:textAlignment="center"/>
-        <TextView
+        android:id="@+id/ingredient_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:text="___"
+        android:textAlignment="center"
+        android:textColor="#a1c448"
 
-            android:id="@+id/ingredient_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="___"
-            android:textStyle="bold"
-            android:paddingBottom="10dp"
-            android:textColor="#a1c448"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
-            android:textSize="30dp"
-            android:textAlignment="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-        <TextView
-            android:textStyle="bold"
-            android:fontFamily="@font/cookie_r"
+        android:fontFamily="@font/cookie_r"
+        android:paddingBottom="10dp"
+        android:text="유통기한"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="유통기한"
-            android:textSize="20dp"
-            android:paddingBottom="10dp"
-            android:textAlignment="center"/>
-        <TextView
-            android:id="@+id/ingredient_expiration_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="___"
-            android:textStyle="bold"
-            android:paddingBottom="10dp"
-            android:textColor="#a1c448"
+    <TextView
+        android:id="@+id/ingredient_expiration_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:text="___"
+        android:textAlignment="center"
+        android:textColor="#a1c448"
 
-            android:textSize="30dp"
-            android:textAlignment="center"/>
-        <TextView
-            android:textStyle="bold"
-            android:fontFamily="@font/cookie_r"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="알러지 반응"
-            android:textSize="20dp"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-            android:paddingBottom="10dp"
+        android:fontFamily="@font/cookie_r"
+        android:paddingBottom="10dp"
+        android:text="알러지 반응"
+        android:textAlignment="center"
 
-            android:textAlignment="center"/>
+        android:textSize="20dp"
 
-        <TextView
-            android:textStyle="bold"
+        android:textStyle="bold" />
 
-            android:paddingBottom="10dp"
-            android:id="@+id/ingredient_alergy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="해당사항 없음"
-            android:textSize="20dp"
-            android:textAlignment="center">
+    <TextView
+        android:id="@+id/ingredient_alergy"
 
-        </TextView>
-    </LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:text="해당사항 없음"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp">
+
+    </TextView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
         android:orientation="horizontal">
 
         <Button
@@ -121,20 +92,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/cookie_r"
             android:text="뒤로가기"
             android:textStyle="bold"
-            android:fontFamily="@font/cookie_r"
 
             />
+
         <Button
             android:id="@+id/delete_button"
-            android:backgroundTint="#cc0000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="#FF664D"
+            android:fontFamily="@font/cookie_r"
             android:text="삭제하기"
             android:textStyle="bold"
-            android:fontFamily="@font/cookie_r"
 
             />
     </LinearLayout>
