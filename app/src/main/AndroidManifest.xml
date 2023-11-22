@@ -43,6 +43,10 @@
         <activity android:name="com.example.last_last_cap.RecipeActivity"/>
 
         <receiver android:name="com.example.last_last_cap.AlarmReceiver"
+
+        <activity android:name=".RecipeListActivity"/>
+        <activity android:name=".RecipeStepsActivity"/>
+        <receiver android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
