@@ -20,6 +20,7 @@
             />
 
         <Button
+            android:backgroundTint="@color/white"
             android:id="@+id/input_text"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -28,6 +29,8 @@
             android:textSize="20dp"
             ></Button>
         <Button
+            android:backgroundTint="@color/white"
+
             android:id="@+id/using_camera"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -36,6 +39,8 @@
             android:textSize="20dp"
             ></Button>
         <Button
+            android:backgroundTint="@color/white"
+
             android:id="@+id/barcode"
             android:layout_width="300dp"
             android:layout_height="wrap_content"

@@ -51,7 +51,6 @@ public class SearchActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         list = (ArrayList<String>) intent.getSerializableExtra("list");
-
         editSearch = (EditText) findViewById(R.id.editSearch);
         listView = (ListView) findViewById(R.id.listView);
 

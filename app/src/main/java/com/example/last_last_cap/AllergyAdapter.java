@@ -1,11 +1,13 @@
 package com.example.last_last_cap;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -43,6 +45,18 @@ public class AllergyAdapter extends RecyclerView.Adapter<AllergyAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String allergy = allergies.get(position);
         holder.bind(allergy);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    int adapterPosition = holder.getAdapterPosition();
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(adapterPosition);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -57,6 +71,8 @@ public class AllergyAdapter extends RecyclerView.Adapter<AllergyAdapter.ViewHold
             super(itemView);
             allergyTextView = itemView.findViewById(R.id.text_view_allergy);
             itemView.setOnClickListener(this);
+            Typeface font = ResourcesCompat.getFont(itemView.getContext(), R.font.cookie_r); // your_font은 사용하려는 폰트 파일 이름
+            allergyTextView.setTypeface(font);
         }
 
         void bind(String allergy) {

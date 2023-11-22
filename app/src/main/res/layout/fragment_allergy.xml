@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- 다른 위젯들을 추가하거나 배치할 수 있습니다 -->
 
    
     <Button
         android:id="@+id/add_allergy_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/cookie_bold"
         android:text="알러지 추가하기" />
 
     <androidx.recyclerview.widget.RecyclerView
