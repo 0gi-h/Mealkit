@@ -113,8 +113,6 @@ public class RecipeFragment extends Fragment {
             }
         });
 
-        searchView.setIconifiedByDefault(false);
-        searchView.setQueryHint("검색어를 입력하시오");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:886228469408:android:3d2f2a20eb88ef62342bc5",
         "android_client_info": {
-          "package_name": "com.example.last_last_cap"
+          "package_name": "org.tensorflow.lite.examples.detection"
         }
       },
       "oauth_client": [

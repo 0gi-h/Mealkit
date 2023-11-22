@@ -34,6 +34,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.tensorflow.lite.examples.detection.DetectorActivity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,6 +84,14 @@ public class FridgeFragment extends Fragment {
             }
         });
 
+//        cam.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), DetectorActivity.class);
+//                startActivity(intent);
+//                activity.finish();
+//            }
+//        });
 
         Button addButton2 = view.findViewById(R.id.addButton2);
         //앞으로 addButton2를 이용하여, 재료추가 기능을 만들 예정. 그로인해 showAddDialog()함수대신 showAddDialog2()함수 사용예정
@@ -171,9 +181,12 @@ public class FridgeFragment extends Fragment {
 
         //사진 기능(추후 업데이트 예정)
         using_cameraButton.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "아직 기능이 추가되지 않았어요.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), DetectorActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LAST_LAST_CAP</string>
+    <string name="tfe_od_camera_error" translation_description="Error regarding camera support[CHAR_LIMIT=40]">This device doesn\'t support Camera2 API.</string>
 </resources>

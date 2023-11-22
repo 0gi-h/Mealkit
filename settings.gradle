@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "LAST_LAST_CAP"
 include ':app'
+include ':lib_interpreter'
+include ':lib_task_api'
