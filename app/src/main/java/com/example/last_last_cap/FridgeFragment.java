@@ -425,6 +425,9 @@ public class FridgeFragment extends Fragment {
             case "밀가루":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bf,0, 0);
                 break;
+            case "김":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bg,0, 0);
+                break;
         }
         button.setBackgroundResource(R.drawable.round_button_background);
         CollectionReference allergyCollection = usersCollection.document(userUID).collection("ALLERGY");
