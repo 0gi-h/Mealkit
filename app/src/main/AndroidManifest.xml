@@ -31,7 +31,8 @@
         <activity android:name=".JoinActivity"/>
         <activity android:name=".IngredientVerificationActivity" />
         <activity android:name=".RecipeActivity"/>
-
+        <activity android:name=".RecipeListActivity"/>
+        <activity android:name=".RecipeStepsActivity"/>
         <receiver android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="false">

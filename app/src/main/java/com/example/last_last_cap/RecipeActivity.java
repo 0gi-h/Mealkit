@@ -7,18 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
 public class RecipeActivity extends AppCompatActivity {
-    private List<String> recipeSteps;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecipeStepsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
-        recipeSteps = getIntent().getStringArrayListExtra("recipeSteps");
+        // RecipeStep 객체 리스트를 받아옵니다.
+        List<RecipeStep> recipeSteps = (List<RecipeStep>) getIntent().getSerializableExtra("recipeSteps");
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -26,4 +25,5 @@ public class RecipeActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 }
+
 
