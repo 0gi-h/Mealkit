@@ -439,8 +439,7 @@ public class FridgeFragment extends Fragment {
 
                             // 현재 알러지가 fish_allergy 리스트에 포함되어 있다면 배경색을 붉은색으로 설정
                             if (fishAllergies.contains(name)) {
-                                button.setBackgroundColor(Color.RED);
-                                button.setTextColor(Color.WHITE);
+                                button.setTextColor(Color.RED);
 
                             }
                         }
@@ -462,8 +461,7 @@ public class FridgeFragment extends Fragment {
 
                             // 현재 알러지가 fish_allergy 리스트에 포함되어 있다면 배경색을 붉은색으로 설정
                             if (milkallegries.contains(name)) {
-                                button.setBackgroundColor(Color.RED);
-                                button.setTextColor(Color.WHITE);
+                                button.setTextColor(Color.RED);
 
                             }
                         }
@@ -485,35 +483,30 @@ public class FridgeFragment extends Fragment {
 
                             // "땅콩"이 알러지에 포함되어 있다면 해당 버튼의 배경색을 붉은색으로 설정
                             if ("땅콩".equals(allergy) && "땅콩".equals(name)) {
-                                button.setBackgroundColor(Color.RED);
-                                button.setTextColor(Color.WHITE);
+                                button.setTextColor(Color.RED);
 
                                 break;
                             }
                             if ("복숭아".equals(allergy) && "복숭아".equals(name)) {
-                                button.setBackgroundColor(Color.RED);
-                                button.setTextColor(Color.WHITE);
+                                button.setTextColor(Color.RED);
 
                                 break;
 
                             }
                             if ("대두".equals(allergy) && "대두".equals(name)) {
-                                button.setBackgroundColor(Color.RED);
-                                button.setTextColor(Color.WHITE);
+                                button.setTextColor(Color.RED);
 
                                 break;
 
                             }
                             if ("밀".equals(allergy) && "밀".equals(name)) {
-                                button.setBackgroundColor(Color.RED);
-                                button.setTextColor(Color.WHITE);
+                                button.setTextColor(Color.RED);
 
                                 break;
 
                             }
                             if ("달걀".equals(allergy) && "달걀".equals(name)) {
-                                button.setBackgroundColor(Color.RED);
-                                button.setTextColor(Color.WHITE);
+                                button.setTextColor(Color.RED);
 
                                 break;
 

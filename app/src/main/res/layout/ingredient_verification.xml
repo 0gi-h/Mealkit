@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#aa0000"
+            android:backgroundTint="#FF664D"
             android:fontFamily="@font/cookie_r"
             android:text="삭제하기"
             android:textStyle="bold"
