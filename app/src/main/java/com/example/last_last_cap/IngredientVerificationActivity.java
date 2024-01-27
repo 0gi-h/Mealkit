@@ -85,7 +85,7 @@ public class IngredientVerificationActivity extends Dialog {
                 // id가 문서 ID인 경우에만 삭제 수행
                 if (id != null && !id.isEmpty()) {
                     // users/{userUID}/ingredients/{id} 경로의 문서 참조
-                    CollectionReference ingredientsCollection = usersCollection.document(userUID).collection("ingredients");
+                    CollectionReference ingredientsCollection = usersCollection.document(SaveSharedPreferences.getKeyForDB(getContext())).collection("ingredients");
                     ingredientsCollection.document(id).delete()
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.last_last_cap.FridgeFragment;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -165,6 +166,7 @@ public class SettingFragment extends Fragment {
 
                     try {
                         SaveSharedPreferences.setKeyForDB(getContext(), SaveSharedPreferences.getCryptoUserName(getContext()));
+
                     } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
                         Toast.makeText(getContext(), "냉장고 고유키가 변경에 실패했습니다.", Toast.LENGTH_SHORT).show();
                     }

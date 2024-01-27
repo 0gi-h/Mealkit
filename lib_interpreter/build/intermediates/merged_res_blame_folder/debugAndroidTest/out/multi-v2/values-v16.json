@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-mergeDebugAndroidTestResources-1:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\hwick\\.gradle\\caches\\transforms-3\\302cf279cf7314e41821948943ba50f2\\transformed\\core-1.1.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\hwick\\.gradle\\caches\\transforms-3\\293306430b9e646da6ea89b5884f8e93\\transformed\\appcompat-1.1.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                }
+            ]
+        }
+    ]
+}

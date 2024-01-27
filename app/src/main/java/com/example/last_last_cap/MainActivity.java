@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -111,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
                             } catch (InvalidKeyException e) {
                                 e.printStackTrace();
                             }
+
+//                            View loginButton = findViewById(R.id.login_activity); // 애니메이션을 적용할 뷰의 ID를 사용
+//                            Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fridge_open);
+//                            loginButton.startAnimation(animation);
 
                             Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                             intent.putExtra("name", emailEditText.getText().toString());

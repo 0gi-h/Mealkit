@@ -10,14 +10,19 @@
    
     <Button
         android:id="@+id/add_allergy_button"
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cookie_bold"
-        android:text="알러지 추가하기" />
+        android:layout_marginStart="105dp"
+        android:layout_marginEnd="105dp"
+        android:fontFamily="@font/cookie_r"
+        android:text="알러지 추가" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        />
 
 </LinearLayout>

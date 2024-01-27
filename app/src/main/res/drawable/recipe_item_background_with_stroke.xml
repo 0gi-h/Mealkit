@@ -1,0 +1,17 @@
+<!-- res/drawable/background_with_stroke.xml -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Stroke (테두리) -->
+    <item>
+        <shape android:shape="rectangle" >
+            <stroke
+
+                android:width="3dp"
+                android:color="#a1c448"
+                >
+            </stroke> <!-- 테두리 두께 설정 -->
+        </shape>
+    </item>
+
+</layer-list>

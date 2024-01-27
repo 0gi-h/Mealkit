@@ -135,8 +135,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 //builder.setContentTitle("알람");
                 //알림창 아이콘
                 String res = change(names.get(i));
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.etc);
-                builder.setSmallIcon(R.drawable.beaf);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
+                builder.setSmallIcon(R.drawable.logo);
                // builder.setSmallIcon(context.getResources().getIdentifier(res, "drawable", context.getPackageName()));
                 builder.setLargeIcon(bitmap);
                 builder.setContentTitle("유통기한 임박 안내");

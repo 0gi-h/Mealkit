@@ -6,20 +6,26 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MenuActivity extends AppCompatActivity {
 
     TextView show;
     ViewPager viewPager;
     TabLayout tabLayout;
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         show=findViewById(R.id.show_original_num);
         Intent intent = getIntent();
         String name = getIntent().getStringExtra("name");
-        show.setText("\'"+name +"\'"+ "의 냉장고");
+        show.setText(name+"님의 냉장고");
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         setupViewPager(viewPager);

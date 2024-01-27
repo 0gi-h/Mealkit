@@ -28,8 +28,7 @@
             android:text="회원가입"
             android:textAlignment="center"
             android:textColor="#212121"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:textSize="28dp"/>
     </androidx.appcompat.widget.Toolbar>
 
     <EditText
@@ -83,16 +82,14 @@
     <Button
         android:id="@+id/join_confirm_button"
         android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="35dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="60dp"
         android:fontFamily="@font/cookie_r"
         android:text="회원가입"
         android:textAlignment="center"
-        android:textColor="#ffffff"
         android:textSize="20dp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/join_repassword_edittext" />

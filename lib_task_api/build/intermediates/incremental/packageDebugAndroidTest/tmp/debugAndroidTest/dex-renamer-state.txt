@@ -1,0 +1,13 @@
+#Wed Nov 22 20:51:38 KST 2023
+base.0=C\:\\Android_projects\\LAST_LAST_CAP\\lib_task_api\\build\\intermediates\\dex\\debugAndroidTest\\mergeExtDexDebugAndroidTest\\classes.dex
+base.1=C\:\\Android_projects\\LAST_LAST_CAP\\lib_task_api\\build\\intermediates\\dex\\debugAndroidTest\\mergeLibDexDebugAndroidTest\\0\\classes.dex
+base.2=C\:\\Android_projects\\LAST_LAST_CAP\\lib_task_api\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
+base.3=C\:\\Android_projects\\LAST_LAST_CAP\\lib_task_api\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\10\\classes.dex
+path.0=classes.dex
+path.1=0/classes.dex
+path.2=0/classes.dex
+path.3=10/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
+renamed.2=classes3.dex
+renamed.3=classes4.dex

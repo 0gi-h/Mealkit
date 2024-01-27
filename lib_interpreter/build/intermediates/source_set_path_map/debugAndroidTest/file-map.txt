@@ -1,0 +1,8 @@
+org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-androidTest-0 C:\Android_projects\LAST_LAST_CAP\lib_interpreter\build\generated\res\resValues\androidTest\debug
+org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-mergeDebugAndroidTestResources-1 C:\Android_projects\LAST_LAST_CAP\lib_interpreter\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-mergeDebugAndroidTestResources-2 C:\Android_projects\LAST_LAST_CAP\lib_interpreter\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-merged_res-3 C:\Android_projects\LAST_LAST_CAP\lib_interpreter\build\intermediates\merged_res\debugAndroidTest
+org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-packaged_res-4 C:\Android_projects\LAST_LAST_CAP\lib_interpreter\build\intermediates\packaged_res\debug
+org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-appcompat-1.1.0-5 C:\Users\hwick\.gradle\caches\transforms-3\293306430b9e646da6ea89b5884f8e93\transformed\appcompat-1.1.0\res
+org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-core-1.1.0-6 C:\Users\hwick\.gradle\caches\transforms-3\302cf279cf7314e41821948943ba50f2\transformed\core-1.1.0\res
+org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-appcompat-resources-1.1.0-7 C:\Users\hwick\.gradle\caches\transforms-3\3fc97905e81b70e28ceb1744363f4570\transformed\appcompat-resources-1.1.0\res

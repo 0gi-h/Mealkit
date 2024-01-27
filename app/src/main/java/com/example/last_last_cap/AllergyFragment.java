@@ -26,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllergyFragment extends Fragment implements AllergyDialogFragment.OnAllergySelectedListener, AllergyAdapter.OnItemClickListener {
+public class AllergyFragment extends Fragment implements AllergyDialogFragment.OnAllergySelectedListener, AllergyAdapter.OnItemClickListener , AllergyAdapter.OnItemLongClickListener {
 
     private List<String> allergies = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -50,8 +50,8 @@ public class AllergyFragment extends Fragment implements AllergyDialogFragment.O
 
             recyclerView = view.findViewById(R.id.recycler_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            adapter = new AllergyAdapter(allergies, this);
-            recyclerView.setAdapter(adapter);
+        adapter = new AllergyAdapter(allergies, this, this);
+        recyclerView.setAdapter(adapter);
         userUid = SaveSharedPreferences.getKeyForDB(getActivity());
 
         // Firestore에서 알러지 데이터 가져오기
@@ -96,15 +96,20 @@ public class AllergyFragment extends Fragment implements AllergyDialogFragment.O
                 }
             }
             adapter.notifyDataSetChanged();
-            Toast.makeText(getContext(), "알러지가 추가되었습니다.", Toast.LENGTH_SHORT).show();
         }
 
-        @Override
-        public void onItemClick(int position) {
-            // RecyclerView에서 항목을 클릭했을 때 해당 알러지를 Firestore에서 삭제
-            String allergyToRemove = allergies.get(position);
-            deleteAllergyFromFirestore(allergyToRemove);
-        }
+    @Override
+    public void onItemClick(int position) {
+        // 클릭 이벤트에서는 아무 동작을 하지 않도록 구현
+        // 꾹 누르는 이벤트에서 이미 처리했기 때문에 클릭 이벤트는 무시
+    }
+
+    @Override
+    public void onItemLongClick(int position) {
+        // 꾹 눌렀을 때 동작할 내용을 여기에 추가
+        String allergyToRemove = allergies.get(position);
+        deleteAllergyFromFirestore(allergyToRemove);
+    }
 
     private void deleteAllergyFromFirestore(String allergyName) {
         // 사용자의 알러지 컬렉션 참조

@@ -10,7 +10,7 @@
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="알러지를 선택하세요"
+        android:text="알러지를 선택해 주세요"
         android:textSize="25dp"
         android:gravity="center"
         android:fontFamily="@font/cookie_r"/>
@@ -23,11 +23,11 @@
         >
 
         <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:id="@+id/allergy_p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/white"
             android:text="땅콩"
             android:drawableTop="@drawable/a_peanut"
             android:textStyle="bold" />
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/white"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:textStyle="bold"
             android:drawableTop="@drawable/a_bean"
 
@@ -46,7 +46,7 @@
         <Button
             android:id="@+id/allergy_meal"
             android:layout_width="wrap_content"
-            android:backgroundTint="@color/white"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:textStyle="bold"
             android:drawableTop="@drawable/a_meal"
 
@@ -65,7 +65,7 @@
         <Button
             android:id="@+id/allergy_milk"
             android:layout_width="wrap_content"
-            android:backgroundTint="@color/white"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:textStyle="bold"
             android:drawableTop="@drawable/a_milk"
 
@@ -77,18 +77,18 @@
             android:id="@+id/allergy_egg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:textStyle="bold"
             android:drawableTop="@drawable/a_egg"
 
             android:layout_weight="1"
-            android:text="달걀" />
+            android:text="계란" />
 
         <Button
             android:id="@+id/allergy_peach"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:textStyle="bold"
             android:drawableTop="@drawable/a_fish"
 
@@ -117,7 +117,7 @@
             android:textStyle="bold"
             android:drawableTop="@drawable/a_sae"
 
-            android:backgroundTint="@color/white"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:text="어패류" />
 
         <TextView

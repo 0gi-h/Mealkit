@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -29,7 +30,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jsoup.Jsoup;
@@ -48,7 +51,6 @@ import java.util.concurrent.Executors;
 
 public class RecipeFragment extends Fragment {
 
-    private SearchView searchView;
     private ListView listView;
     private IngredientAdapter adapter;
     private List<String> data;
@@ -60,8 +62,6 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
 
-
-        searchView = view.findViewById(R.id.searchView);
         listView = view.findViewById(R.id.listView);
         adapter = new IngredientAdapter(requireContext(), R.layout.ingredient_item, new ArrayList<>());
         listView.setAdapter(adapter);
@@ -74,27 +74,30 @@ public class RecipeFragment extends Fragment {
             String userUID = currentUser.getUid();
 
             // 냉장고 재료 가져오는 부분
-            db.collection("users").document(userUID).collection("ingredients").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        List<String> userIngredients = new ArrayList<>();
-                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            String ingredientName = documentSnapshot.getString("name");
-                            if (ingredientName != null) {
-                                userIngredients.add(ingredientName);
+            db.collection("users").document(SaveSharedPreferences.getKeyForDB(getContext())).collection("ingredients")
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                // 오류 처리
+                                return;
+                            }
+
+                            if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                                List<String> userIngredients = new ArrayList<>();
+                                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    String ingredientName = documentSnapshot.getString("name");
+                                    if (ingredientName != null) {
+                                        userIngredients.add(ingredientName);
+                                    }
+                                }
+                                adapter.clear();
+                                adapter.addAll(userIngredients);
+                                adapter.notifyDataSetChanged();
                             }
                         }
-                        adapter.clear();
-                        adapter.addAll(userIngredients);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // 오류 처리
-                }
+
             });
         }
 
@@ -118,17 +121,6 @@ public class RecipeFragment extends Fragment {
                 }
             }
         });
-
-
-//        searchView.setIconifiedByDefault(false);
-//        searchView.setQueryHint("검색어를 입력하시오");
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String selectedItem = adapter.getItem(position);
-//            }
-//        });
 
         return view;
     }

@@ -29,11 +29,22 @@ public class AllergyAdapter extends RecyclerView.Adapter<AllergyAdapter.ViewHold
     private List<String> allergies;
     private OnItemClickListener listener;
 
-    public AllergyAdapter(List<String> allergies, OnItemClickListener listener) {
-        this.allergies = allergies;
-        this.listener = listener;
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClick(int position);
+    }
+
+    private OnItemClickListener clickListener;
+    private OnItemLongClickListener longClickListener;
+
+    public AllergyAdapter(List<String> allergies, OnItemClickListener clickListener, OnItemLongClickListener longClickListener) {
+        this.allergies = allergies;
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,12 +60,22 @@ public class AllergyAdapter extends RecyclerView.Adapter<AllergyAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null) {
-                    int adapterPosition = holder.getAdapterPosition();
-                    if (adapterPosition != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(adapterPosition);
-                    }
+                int adapterPosition = holder.getAdapterPosition();
+                if (clickListener != null && adapterPosition != RecyclerView.NO_POSITION) {
+                    clickListener.onItemClick(adapterPosition);
                 }
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                if (longClickListener != null && adapterPosition != RecyclerView.NO_POSITION) {
+                    longClickListener.onItemLongClick(adapterPosition);
+                    return true; // 꾹 눌렀을 때 이벤트만 처리하고, 클릭 이벤트는 무시
+                }
+                return false;
             }
         });
     }
@@ -90,7 +111,4 @@ public class AllergyAdapter extends RecyclerView.Adapter<AllergyAdapter.ViewHold
         }
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
 }

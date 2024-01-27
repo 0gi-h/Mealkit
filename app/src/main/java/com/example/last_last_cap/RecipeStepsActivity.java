@@ -2,6 +2,7 @@ package com.example.last_last_cap;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ public class RecipeStepsActivity extends AppCompatActivity {
     private ViewPager2 recipeStepsViewPager;
     private RecipeStepsAdapter adapter;
     private TabLayout tabLayout;
-    private Button leftArrowButton, rightArrowButton; // 화살표 버튼 추가
+    private ImageButton leftArrowButton, rightArrowButton; // 화살표 버튼 추가
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

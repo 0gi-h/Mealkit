@@ -24,6 +24,7 @@
                 android:layout_weight="1.5"
                 android:fontFamily="@font/nanum2"
                 android:includeFontPadding="false"
+             android:layout_marginLeft="16dp"
                 android:text="TITLE"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
@@ -35,12 +36,12 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="7.5"
+            android:layout_weight="7"
             android:fontFamily="@font/nanum2"
             android:includeFontPadding="false"
             android:text=" "
             android:textColor="@android:color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="center" />
 
@@ -49,7 +50,7 @@
             android:id="@+id/imageView4"
             android:layout_width="10dp"
             android:layout_height="30dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             app:srcCompat="@drawable/calendar" />
 
     </LinearLayout>

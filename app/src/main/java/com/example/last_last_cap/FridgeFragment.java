@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -46,8 +47,7 @@ import java.util.List;
 public class FridgeFragment extends Fragment {
     private AlertDialog currentDialog;
     private TableLayout buttonContainer;
-    String[] fish_allergy = {"가자미","갈치","고등어","광어","멸치","장어","연어","오징어","문어","낙지","대게","꽃게","새우","대하","꼬막",
-            "가리비","굴","맛조개","바지락","전복","재첩","키조개","홍합"};
+    String[] fish_allergy = {"대게","꽃게","새우","대하","꼬막","가리비","굴","맛조개","바지락","전복","재첩","키조개","홍합"};
     String[] milk_allergy = {"우유","크림","버터","치즈"};
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference usersCollection = db.collection("users");
@@ -55,6 +55,8 @@ public class FridgeFragment extends Fragment {
     FirebaseUser user = auth.getCurrentUser();
     String userUID  = user.getUid();//uid
 
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private String currentUserUID;
 
     Activity activity;
     private List<String> list;
@@ -68,7 +70,7 @@ public class FridgeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fridge, container, false);
         buttonContainer = view.findViewById(R.id.buttonContainer);
 
-        FirestoreDataManager.addIngredientsListener(userUID, new FirestoreDataManager.OnDataFetchedListener() {
+        FirestoreDataManager.addIngredientsListener(SaveSharedPreferences.getKeyForDB(getContext()), new FirestoreDataManager.OnDataFetchedListener() {
             @Override
             public void onDataFetched(List<IngredientData> data) {
 
@@ -89,21 +91,18 @@ public class FridgeFragment extends Fragment {
             }
         });
 
-//        cam.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), DetectorActivity.class);
-//                startActivity(intent);
-//                activity.finish();
-//            }
-//        });
-
         Button addButton2 = view.findViewById(R.id.addButton2);
         //앞으로 addButton2를 이용하여, 재료추가 기능을 만들 예정. 그로인해 showAddDialog()함수대신 showAddDialog2()함수 사용예정
 
         addButton2.setOnClickListener(v -> showAddDialog2());
-        Button calendarButton = view.findViewById(R.id.calendarButton);
-        calendarButton.setOnClickListener(v -> showCalendarDialog());
+        Button addbutton_camera = view.findViewById(R.id.addButton_camera);
+        addbutton_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DetectorActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -145,7 +144,7 @@ public class FridgeFragment extends Fragment {
         seasoningButton.setOnClickListener(v ->showSelectToAddIngredientDialog("조미료"));
         marinButton.setOnClickListener(v ->showSelectToAddIngredientDialog("수산물"));
         nutButton.setOnClickListener(v ->showSelectToAddIngredientDialog("견과류"));
-        eggButton.setOnClickListener(v ->showSelectToAddIngredientDialog("달걀"));
+        eggButton.setOnClickListener(v ->showSelectToAddIngredientDialog("계란"));
         etcButton.setOnClickListener(v ->showSelectToAddIngredientDialog("기타"));
 
 
@@ -180,20 +179,11 @@ public class FridgeFragment extends Fragment {
         categoryTextView.setText(categoryName+" 카테고리");
 
         Button input_textButton=dialogView.findViewById(R.id.input_text);
-        Button using_cameraButton=dialogView.findViewById(R.id.using_camera);
         Button barcodeButton=dialogView.findViewById(R.id.barcode);
 
 
         //사진 기능(추후 업데이트 예정)
-        using_cameraButton.setOnClickListener(new View.OnClickListener() {
 
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DetectorActivity.class);
-                startActivity(intent);
-            }
-        });
 
         //바코드 기능(추후 업데이트 예정)
         barcodeButton.setOnClickListener(new View.OnClickListener() {
@@ -223,41 +213,6 @@ public class FridgeFragment extends Fragment {
     // 기존 버튼들을 삭제하는 함수
 
     // 재료를 버튼으로 추가하는 함수
-    private void addButtonWithName(String name) {
-        Button button = new Button(getActivity());
-        button.setText(name);
-
-        TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
-                TableRow.LayoutParams.WRAP_CONTENT,
-                TableRow.LayoutParams.WRAP_CONTENT
-        );
-        layoutParams.weight = 1; // Equally distribute buttons within TableRow
-
-        button.setLayoutParams(layoutParams);
-
-        TableLayout buttonContainer = getView().findViewById(R.id.buttonContainer);
-        TableRow lastTableRow = null;
-
-        if (buttonContainer.getChildCount() > 0) {
-            lastTableRow = (TableRow) buttonContainer.getChildAt(buttonContainer.getChildCount() - 1);
-        }
-
-        if (lastTableRow == null || lastTableRow.getChildCount() >= 3) {
-            // Add a new TableRow for a new row
-            lastTableRow = new TableRow(getActivity());
-            buttonContainer.addView(lastTableRow);
-        }
-
-        lastTableRow.addView(button);
-
-        // 버튼 클릭 이벤트 설정
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showIngredientVerificationDialog(name);
-            }
-        });
-    }
     private void addButtonWithName(String id, String name, String expirationDate) {
         Button button = new Button(getActivity());
         button.setText(name);
@@ -303,7 +258,7 @@ public class FridgeFragment extends Fragment {
             case "귤":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.m,0, 0);
                 break;
-            case "한라봉":
+            case "메추리알":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.n,0, 0);
                 break;
             case "사과":
@@ -312,7 +267,7 @@ public class FridgeFragment extends Fragment {
             case "포도":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.p,0, 0);
                 break;
-            case "자두":
+            case "배":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.q,0, 0);
                 break;
             case "블루베리":
@@ -321,25 +276,25 @@ public class FridgeFragment extends Fragment {
             case "복숭아":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.s,0, 0);
                 break;
-            case "매실":case "복분자":case "살구":
+            case "매실":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.t,0, 0);
                 break;
             case "닭봉":case "닭날개":case "닭다리":case "닭발":case "닭가슴살":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.u,0, 0);
                 break;
-            case "새우살":case "부채살":case "채끝살":case "안심살":case "아롱사태": case"차돌박이": case"토마호크":
+            case "새우살":case "부채살": case "안심살":case "아롱사태": case"차돌박이": case"소고기":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.v,0, 0);
                 break;
-            case "항정살":case "가브리살":case "목살":case "등심":case "뒷다리살": case"삼겹살":
+            case "항정살":case "가브리살":case "목살":case "등심":case "뒷다리살": case"삼겹살": case"돼지고기":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.w,0, 0);
                 break;
-            case "달걀":
+            case "계란":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.x,0, 0);
                 break;
             case "파프리카":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.y,0, 0);
                 break;
-            case "파":
+            case "대파":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.z,0, 0);
                 break;
             case "청경채":
@@ -411,7 +366,7 @@ public class FridgeFragment extends Fragment {
             case "브로콜리":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.aw,0, 0);
                 break;
-            case "도라지":
+            case "베이컨":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ax,0, 0);
                 break;
             case "율무":
@@ -423,7 +378,7 @@ public class FridgeFragment extends Fragment {
             case "호밀":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.ba,0, 0);
                 break;
-            case "귀리":
+            case "호박":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bb,0, 0);
                 break;
             case "보리":
@@ -440,6 +395,18 @@ public class FridgeFragment extends Fragment {
                 break;
             case "김":
                 button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.bg,0, 0);
+                break;
+            case "팽이버섯":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.spin,0, 0);
+                break;
+            case "키위":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.kiwi,0, 0);
+                break;
+            case "소세지":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.sausage,0, 0);
+                break;
+            case "토마토":
+                button.setCompoundDrawablesWithIntrinsicBounds(0,  R.drawable.tomato,0, 0);
                 break;
         }
         button.setBackgroundResource(R.drawable.round_button_background);
@@ -521,7 +488,7 @@ public class FridgeFragment extends Fragment {
                                 break;
 
                             }
-                            if ("달걀".equals(allergy) && "달걀".equals(name)) {
+                            if ("계란".equals(allergy) && "계란".equals(name)) {
                                 button.setTextColor(Color.RED);
 
                                 break;
@@ -543,7 +510,7 @@ public class FridgeFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.WRAP_CONTENT
         );
-        layoutParams.setMargins(3, 0, 3, 0); // left, top, right, bottom margins
+        layoutParams.setMargins(24, 0, 24, 0); // left, top, right, bottom margins
 
 
         button.setLayoutParams(layoutParams);

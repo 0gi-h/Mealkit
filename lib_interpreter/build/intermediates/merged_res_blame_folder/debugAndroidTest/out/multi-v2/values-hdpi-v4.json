@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "org.tensorflow.lite.examples.detection.tflite.test.lib_interpreter-mergeDebugAndroidTestResources-1:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\hwick\\.gradle\\caches\\transforms-3\\293306430b9e646da6ea89b5884f8e93\\transformed\\appcompat-1.1.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

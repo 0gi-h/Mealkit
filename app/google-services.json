@@ -9,6 +9,35 @@
       "client_info": {
         "mobilesdk_app_id": "1:886228469408:android:3d2f2a20eb88ef62342bc5",
         "android_client_info": {
+          "package_name": "com.example.last_last_cap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886228469408-02uldqg1kjakjdk0jo52o189qj076gk0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmpmJzqXLDWZTWrpPmoPiapeyvPNH-rYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886228469408-02uldqg1kjakjdk0jo52o189qj076gk0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886228469408:android:e553b87bb7c3f73b342bc5",
+        "android_client_info": {
           "package_name": "org.tensorflow.lite.examples.detection"
         }
       },
